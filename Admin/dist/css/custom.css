@@ -1,0 +1,7 @@
+.action-bar .list {
+  list-style: none;
+  display: flex;
+}
+.list-item:not(:last-child) {
+  margin-right: 5px;
+}

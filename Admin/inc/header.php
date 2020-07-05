@@ -13,8 +13,7 @@ ob_start();
     <title>Admin | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -37,6 +36,9 @@ ob_start();
     <!-- datatable CSS style sheets -->
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+    <!-- custom css  -->
+    <link rel="stylesheet" href="dist/css/custom.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
