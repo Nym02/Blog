@@ -1,7 +1,8 @@
 <?php
+ob_start();
 
 include("db.php");
-ob_start();
+
 ?>
 
 <!DOCTYPE html>
