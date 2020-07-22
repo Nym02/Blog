@@ -1,8 +1,12 @@
 <?php
-ob_start();
 
 include("db.php");
+ob_start();
+session_start();
 
+if(empty($_SESSION['email']) || empty($_SESSION['password'])){
+    header("Location: index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +39,7 @@ include("db.php");
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 
     <!-- datatable CSS style sheets -->
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 
     <!-- custom css  -->

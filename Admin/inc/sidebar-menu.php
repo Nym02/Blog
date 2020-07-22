@@ -1,23 +1,39 @@
-<!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Admin</span>
-    </a>
+<?php
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
-        </div>
+$currUser = $_SESSION['id'];
 
+$currentUserQuery = "SELECT * from users WHERE id = '$currUser'";
+$sql = mysqli_query($db, $currentUserQuery);
+
+while ($row = mysqli_fetch_array($sql)) {
+    $currUserFullname           = $row['full_name'];
+    $currUserImage              = $row['image'];
+
+
+?>
+
+
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="dashboard.php" class="brand-link">
+            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">Admin</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="image/users/<?php echo $currUserImage; ?>" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="profile.php" class="d-block"><?php echo $currUserFullname; ?></a>
+                </div>
+            </div>
+        <?php } ?>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -59,35 +75,37 @@
 
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Users
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="users.php?do=Manage" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Manage Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="users.php?do=Add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add New User</p>
-                            </a>
-                        </li>
+                <?php if ($_SESSION['role'] == 1) { ?>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                Users
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="users.php?do=Manage" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Manage Users</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="users.php?do=Add" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add New User</p>
+                                </a>
+                            </li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                <?php } ?>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tree"></i>
                         <p>
-                            UI Elements
+                            Posts
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -96,15 +114,15 @@
 
 
                         <li class="nav-item">
-                            <a href="pages/UI/timeline.html" class="nav-link">
+                            <a href="post.php?do=Manage" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Timeline</p>
+                                <p>Manage Post</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/UI/ribbons.html" class="nav-link">
+                            <a href="post.php?do=Add" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Ribbons</p>
+                                <p>Add New Post</p>
                             </a>
                         </li>
                     </ul>
@@ -113,7 +131,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
-                            Forms
+                            Comments
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -122,47 +140,58 @@
                         <li class="nav-item">
                             <a href="pages/forms/editors.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Editors</p>
+                                <p>Manage Comment</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="pages/forms/validation.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Validation</p>
+                                <p>Add New Comment</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+                <?php if ($_SESSION['role'] == 1) { ?>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Platform Setting
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="pages/tables/simple.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Social Media</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/tables/data.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>General Setting</p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                <?php } ?>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="logout.php" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Tables
-                            <i class="fas fa-angle-left right"></i>
+                            Logout
+
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/tables/simple.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Simple Tables</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/tables/data.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>DataTables</p>
-                            </a>
-                        </li>
 
-                    </ul>
                 </li>
-
 
 
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-</aside>
+        </div>
+        <!-- /.sidebar -->
+    </aside>
