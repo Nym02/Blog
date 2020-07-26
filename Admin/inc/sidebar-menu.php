@@ -6,9 +6,8 @@ $currentUserQuery = "SELECT * from users WHERE id = '$currUser'";
 $sql = mysqli_query($db, $currentUserQuery);
 
 while ($row = mysqli_fetch_array($sql)) {
-    $currUserFullname           = $row['full_name'];
-    $currUserImage              = $row['image'];
-
+    $currUserFullname = $row['full_name'];
+    $currUserImage = $row['image'];
 
 ?>
 
@@ -27,7 +26,10 @@ while ($row = mysqli_fetch_array($sql)) {
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="image/users/<?php echo $currUserImage; ?>" class="img-circle elevation-2" alt="User Image">
+                    <?php if (!empty($currUserImage)) { ?>
+                        <img src="image/users/<?php echo $currUserImage; ?>" class="img-circle elevation-2" alt="User Image">
+                    <?php } else if (empty($currUserImage)) { ?>
+                        <img src="image/users/d1.png" class="img-circle elevation-2" alt="User Image" <?php } ?>>
                 </div>
                 <div class="info">
                     <a href="profile.php" class="d-block"><?php echo $currUserFullname; ?></a>
@@ -48,6 +50,26 @@ while ($row = mysqli_fetch_array($sql)) {
                         </p>
                     </a>
 
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Profile
+                            <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="profile.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Profile</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </li>
 
                 <li class="nav-item has-treeview">
@@ -75,6 +97,7 @@ while ($row = mysqli_fetch_array($sql)) {
 
                     </ul>
                 </li>
+
                 <?php if ($_SESSION['role'] == 1) { ?>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">

@@ -42,6 +42,7 @@
                         <div class="card card-primary card-outline">
                             <div class="card-header ">
                                 <h2 class="card-title">Manage Post</h2>
+
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -172,8 +173,9 @@
                                 </div>
 
 
-
+                                <a href="post.php?do=Add" class="btn btn-info text-center">Add Post</a>
                             </div>
+
                         </div>
                         <!-- /.card -->
                         <!-- card design end  -->
