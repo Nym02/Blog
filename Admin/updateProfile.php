@@ -46,7 +46,7 @@
 
                                 while ($row = mysqli_fetch_assoc($updateSql)) {
                                     $id                             = $row['id'];
-                                    $full_name                       = $row['full_name'];
+                                    $full_name                      = $row['full_name'];
                                     $username                       = $row['username'];
                                     $email                          = $row['email'];
                                     $password                       = $row['password'];
@@ -63,11 +63,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="">Full Name</label>
-                                                    <input type="text" name="fullname" class="form-control" value="<?php echo $full_name; ?>">
+                                                    <input type="text" name="full_name" class="form-control" value="<?php echo $full_name; ?>">
                                                 </div>
-
-
-
                                                 <div class="form-group">
                                                     <label for="">Username</label>
                                                     <input type="text" name="username" class="form-control" value="<?php echo $username; ?>" disabled>
@@ -97,55 +94,31 @@
                                                     <label for="">Address</label>
                                                     <input type="text" name="address" class="form-control" value="<?php echo $address; ?>">
                                                 </div>
-                                                <?php if ($role == 1) { ?>
-                                                    <div class="form-group">
-                                                        <label for="">Role</label>
 
-                                                        <select name="role" id="" class="form-control">
-                                                            <option value="1" <?php if ($role == 1) {
-                                                                                    echo "selected";
-                                                                                } ?>>Admin</option>
-                                                            <option value="2" <?php if ($role == 2) {
-                                                                                    echo "selected";
-                                                                                } ?>>Editor</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="">Status</label>
-                                                        <select name="status" id="" class="form-control">
-                                                            <option value="0" <?php if ($status == 0) {
-                                                                                    echo "selected";
-                                                                                } ?>>In-Active</option>
-                                                            <option value="1" <?php if ($status == 1) {
-                                                                                    echo "selected";
-                                                                                } ?>>Active</option>
-                                                        </select>
-                                                    </div>
-                                                <?php   } else if ($role == 2) { ?>
-                                                    <div class="form-group">
-                                                        <label for="">Role</label>
+                                                <div class="form-group">
+                                                    <label for="">Role</label>
 
-                                                        <select name="role" id="" class="form-control" disabled>
-                                                            <option value="1" <?php if ($role == 1) {
-                                                                                    echo "selected";
-                                                                                } ?>>Admin</option>
-                                                            <option value="2" <?php if ($role == 2) {
-                                                                                    echo "selected";
-                                                                                } ?>>Editor</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="">Status</label>
-                                                        <select name="status" id="" class="form-control" disabled>
-                                                            <option value="0" <?php if ($status == 0) {
-                                                                                    echo "selected";
-                                                                                } ?>>In-Active</option>
-                                                            <option value="1" <?php if ($status == 1) {
-                                                                                    echo "selected";
-                                                                                } ?>>Active</option>
-                                                        </select>
-                                                    </div>
-                                                <?php } ?>
+                                                    <select name="role" id="" class="form-control" disabled>
+                                                        <option value="1" <?php if ($role == 1) {
+                                                                                echo "selected";
+                                                                            } ?>>Admin</option>
+                                                        <option value="2" <?php if ($role == 2) {
+                                                                                echo "selected";
+                                                                            } ?>>Editor</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Status</label>
+                                                    <select name="status" id="" class="form-control" disabled>
+                                                        <option value="0" <?php if ($status == 0) {
+                                                                                echo "selected";
+                                                                            } ?>>In-Active</option>
+                                                        <option value="1" <?php if ($status == 1) {
+                                                                                echo "selected";
+                                                                            } ?>>Active</option>
+                                                    </select>
+                                                </div>
+
 
 
 
@@ -171,7 +144,127 @@
                                             </div>
                                     </form>
                             <?php }
-                            } ?>
+
+
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                                    $full_name                          = $_POST['full_name'];
+                                    $email                              = $_POST['email'];
+                                    $password                           = $_POST['password'];
+                                    $rePassword                         = $_POST['rePassword'];
+                                    $phone                              = $_POST['phone'];
+                                    $address                            = $_POST['address'];
+
+
+
+                                    $image                                          = $_FILES['profileImg'];
+                                    $image_name                                     = $_FILES['profileImg']['name'];
+                                    $image_size                                     = $_FILES['profileImg']['size'];
+                                    $image_type                                     = $_FILES['profileImg']['type'];
+                                    $image_tmp                                      = $_FILES['profileImg']['tmp_name'];
+
+
+
+
+                                    $imgExtension                       = explode('.', $image_name);
+                                    $imgActualExtension                 = strtolower(end($imgExtension));
+
+
+                                    $allowedExtension                   = array('jpg', 'jpeg', 'png');
+
+
+                                    if (!empty($password) & !empty($image_name)) {
+                                        if ($password == $rePassword) {
+                                            $hashedPass  = sha1($password);
+                                            if (in_array($imgActualExtension, $allowedExtension)) {
+                                                if ($image_size < 5000000) {
+
+                                                    $userPhoto      = uniqid(1000) . '_' . $image_name;
+                                                    move_uploaded_file($image_tmp, "image/users/" . $userPhoto);
+
+                                                    //deleting existing
+                                                    $getDelImg      = "SELECT * FROM users WHERE id = '$updateUserID'";
+                                                    $sql            = mysqli_query($db, $getDelImg);
+
+                                                    while ($row = mysqli_fetch_assoc($sql)) {
+                                                        $existingImg        = $row['image'];
+                                                    }
+                                                    unlink("image/users/" . $existingImg);
+
+                                                    $userInfoQuery = "UPDATE users SET full_name='$full_name', email='$email', password='$hashedPass', phone='$phone', address='$address', image='$userPhoto' where id ='$updateUserID'";
+
+                                                    $userInfoSql = mysqli_query($db, $userInfoQuery);
+                                                    if ($userInfoSql) {
+                                                        header("Location: profile.php");
+                                                    } else {
+                                                        die("Error" . mysqli_error($db));
+                                                    }
+                                                } else {
+                                                    header("Location: updateProfile.php?msg=fileSizeError");
+                                                }
+                                            } else {
+                                                header("Location: updateProfile.php?msg=fileTypeError");
+                                            }
+                                        } else {
+                                            header("Location: updateProfile.php?msg=passError");
+                                        }
+                                    } else if (empty($password) && !empty($image_name)) {
+                                        if (in_array($imgActualExtension, $allowedExtension)) {
+                                            if ($image_size < 5000000) {
+
+                                                $userPhoto      = uniqid(1000) . '_' . $image_name;
+                                                move_uploaded_file($image_tmp, "image/users/" . $userPhoto);
+
+                                                //deleting existing
+                                                $getDelImg      = "SELECT * FROM users WHERE id = '$updateUserID'";
+                                                $sql            = mysqli_query($db, $getDelImg);
+
+                                                while ($row = mysqli_fetch_assoc($sql)) {
+                                                    $existingImg        = $row['image'];
+                                                }
+                                                unlink("image/users/" . $existingImg);
+
+                                                $userInfoQuery = "UPDATE users SET full_name='$full_name', email='$email', phone='$phone', address='$address', image='$userPhoto' where id ='$updateUserID'";
+
+                                                $userInfoSql = mysqli_query($db, $userInfoQuery);
+                                                if ($userInfoSql) {
+                                                    header("Location: profile.php");
+                                                } else {
+                                                    die("Error" . mysqli_error($db));
+                                                }
+                                            } else {
+                                                header("Location: updateProfile.php?msg=fileSizeError");
+                                            }
+                                        } else {
+                                            header("Location: updateProfile.php?msg=fileTypeError");
+                                        }
+                                    } else if (!empty($password) && empty($image_name)) {
+                                        if ($password == $rePassword) {
+                                            $hashedPass = sha1($password);
+                                            $userInfoQuery = "UPDATE users SET full_name='$full_name', email='$email', password='$hashedPass', phone='$phone', address='$address'  where id ='$updateUserID'";
+
+                                            $userInfoSql = mysqli_query($db, $userInfoQuery);
+                                            if ($userInfoSql) {
+                                                header("Location: profile.php");
+                                            } else {
+                                                die("Error" . mysqli_error($db));
+                                            }
+                                        } else {
+                                            header("Location: updateProfile.php?msg=passError");
+                                        }
+                                    } else if (empty($password) && empty($image_name)) {
+                                        $userInfoQuery = "UPDATE users SET full_name='$full_name', email='$email', phone='$phone', address='$address'  where id ='$updateUserID'";
+
+                                        $userInfoSql = mysqli_query($db, $userInfoQuery);
+                                        if ($userInfoSql) {
+                                            header("Location: profile.php");
+                                        } else {
+                                            die("Error" . mysqli_error($db));
+                                        }
+                                    }
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                     <!-- /.card -->

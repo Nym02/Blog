@@ -477,22 +477,23 @@
             } ?>
     <?php } else if ($do == 'Update') {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $updateUserID = $_POST['updateUserID'];
-                $full_name = mysqli_real_escape_string($db, $_POST['full_name']);
+                $updateUserID                                   = $_POST['updateUserID'];
+                $full_name                                      = mysqli_real_escape_string($db, $_POST['full_name']);
                 // $username = mysqli_real_escape_string($db, $_POST['username']);
-                $email = mysqli_real_escape_string($db, $_POST['email']);
-                $password = mysqli_real_escape_string($db, $_POST['password']);
-                $rePassword = mysqli_real_escape_string($db, $_POST['rePassword']);
-                $phone = mysqli_real_escape_string($db, $_POST['phone']);
-                $address = mysqli_real_escape_string($db, $_POST['address']);
-                $role = mysqli_real_escape_string($db, $_POST['role']);
-                $status = mysqli_real_escape_string($db, $_POST['status']);
+                $email                                          = mysqli_real_escape_string($db, $_POST['email']);
+                $password                                       = mysqli_real_escape_string($db, $_POST['password']);
+                $rePassword                                     = mysqli_real_escape_string($db, $_POST['rePassword']);
+                $phone                                          = mysqli_real_escape_string($db, $_POST['phone']);
+                $address                                        = mysqli_real_escape_string($db, $_POST['address']);
+                $role                                           = mysqli_real_escape_string($db, $_POST['role']);
+                $status                                         = mysqli_real_escape_string($db, $_POST['status']);
 
-                $image = $_FILES['profileImg'];
-                $image_name = $_FILES['profileImg']['name'];
-                $image_size = $_FILES['profileImg']['size'];
-                $image_type = $_FILES['profileImg']['type'];
-                $image_tmp = $_FILES['profileImg']['tmp_name'];
+
+                $image                                          = $_FILES['profileImg'];
+                $image_name                                     = $_FILES['profileImg']['name'];
+                $image_size                                     = $_FILES['profileImg']['size'];
+                $image_type                                     = $_FILES['profileImg']['type'];
+                $image_tmp                                      = $_FILES['profileImg']['tmp_name'];
 
                 $imageExt = explode('.', $image_name);
                 $imageActualExt = strtolower(end($imageExt));
