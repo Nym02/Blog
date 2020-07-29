@@ -66,7 +66,7 @@
                                         <tbody>
                                             <?php
                                             $serial = 0;
-                                            $post_query = "SELECT * FROM post";
+                                            $post_query = "SELECT * FROM post order by id desc";
                                             $post_sql = mysqli_query($db, $post_query);
 
                                             while ($row = mysqli_fetch_assoc($post_sql)) {

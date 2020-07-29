@@ -35,81 +35,124 @@ include "inc/header.php";
       <!-- Blog Posts Start -->
       <div class="col-md-8">
         <!-- Single Item Blog Post Start -->
-        <div class="blog-post">
-          <!-- Blog Banner Image -->
-          <div class="blog-banner">
-            <a href="#">
-              <img src="assets/images/blog/test.jpg" />
-              <!-- Post Category Names -->
-              <div class="blog-category-name">
-                <h6>Technology</h6>
+        <?php
+        $blogPost             = "SELECT * FROM post order by id desc";
+        $blogPostSql          = mysqli_query($db, $blogPost);
+        $totalBlogPost        = mysqli_num_rows($blogPostSql);
+
+
+        if ($totalBlogPost == 0) {
+          echo '<div class="alert alert-warning">Sorry!!!!No post availabe at this moment. Please come back later.</div>';
+        } else {
+          while ($row = mysqli_fetch_assoc($blogPostSql)) {
+            $id             = $row['id'];
+            $title          = $row['title'];
+            $description    = $row['description'];
+            $tags           = $row['tags'];
+            $image          = $row['image'];
+            $category_id    = $row['category_id'];
+            $author_id      = $row['author_id'];
+            $status         = $row['status'];
+            $post_date      = $row['post_date']; ?>
+
+
+            <!-- Single Item Blog Post Start -->
+            <div class="blog-post">
+              <!-- Blog Banner Image -->
+              <div class="blog-banner">
+                <a href="#">
+                  <?php
+                  if (!empty($image)) { ?>
+                    <img src="Admin/image/post/<?php echo $image; ?>" alt="Blog thumbnail">
+                  <?php   } else { ?>
+                    <img src="Admin/image/post/blog.jpg" alt="Blog thumbnail">
+                  <?php   }
+
+
+                  ?>
+
+                  <!-- Post Category Names -->
+                  <div class="blog-category-name">
+                    <?php
+                    $categoryPost       = "SELECT * FROM category WHERE id = '$category_id'";
+                    $categoryPostSql    = mysqli_query($db, $categoryPost);
+
+
+                    while ($row = mysqli_fetch_assoc($categoryPostSql)) {
+                      $cat_id         = $row['id'];
+                      $cat_name   = $row['cat_name']; ?>
+                      <h6><?php echo $cat_name; ?></h6>
+                    <?php  }
+
+                    ?>
+
+                  </div>
+                </a>
               </div>
-            </a>
-          </div>
-          <!-- Blog Title and Description -->
-          <div class="blog-description">
-            <a href="#">
-              <h3 class="post-title">
-                CONSECTETUR ADIPISICING ELIT, SED DO EIUSMOD.
-              </h3>
-            </a>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est eserunt
-              mollit anim id labor laborumlabor laborum est.
-            </p>
-            <!-- Blog Info, Date and Author -->
-            <div class="row">
-              <div class="col-md-8">
-                <div class="blog-info">
-                  <ul>
-                    <li><i class="fa fa-calendar"></i>7th Nov, 2018</li>
-                    <li><i class="fa fa-user"></i>by - admin</li>
-                    <li><i class="fa fa-heart"></i>(50)</li>
-                  </ul>
+              <!-- Blog Title and Description -->
+              <div class="blog-description">
+                <a href="#">
+                  <h3 class="post-title">
+                    <?php echo $title; ?>
+                  </h3>
+                </a>
+                <p>
+                  <?php echo substr($description, 0, 300) . ' .......'; ?>
+                </p>
+                <!-- Blog Info, Date and Author -->
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="blog-info">
+                      <ul>
+                        <li><i class="fa fa-calendar"></i><?php echo $post_date; ?></li>
+                        <li><i class="fa fa-user"></i>
+                          <?php
+                          $postUser           = "SELECT * FROM users WHERE id = '$author_id'";
+                          $postUserSql        = mysqli_query($db, $postUser);
+
+                          while ($row = mysqli_fetch_assoc($postUserSql)) {
+                            $uid         = $row['id'];
+                            $full_name  = $row['full_name']; ?>
+                            by - <?php echo $full_name; ?>
+                          <?php  }
+
+
+                          ?>
+
+
+                        </li>
+                        <li><i class="fa fa-heart"></i>(50)</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 read-more-btn">
+
+                    <a href="single.php?post=<?php echo $id; ?>" class="btn-main">Read More <i class="fa fa-angle-double-right"></i></a>
+                  </div>
                 </div>
               </div>
-
-              <div class="col-md-4 read-more-btn">
-                <button type="button" class="btn-main">
-                  Read More <i class="fa fa-angle-double-right"></i>
-                </button>
-              </div>
             </div>
-          </div>
-        </div>
-        <!-- Single Item Blog Post End -->
+            <!-- Single Item Blog Post End -->
+
+
+        <?php  }
+        }
 
 
 
-        <!-- Blog Paginetion Design Start -->
-        <div class="paginetion">
-          <ul>
-            <!-- Next Button -->
-            <li class="blog-prev">
-              <a href=""><i class="fa fa-long-arrow-left"></i> Previous</a>
-            </li>
-            <li><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li class="active"><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <!-- Previous Button -->
-            <li class="blog-next">
-              <a href=""> Next <i class="fa fa-long-arrow-right"></i></a>
-            </li>
-          </ul>
-        </div>
-        <!-- Blog Paginetion Design End -->
+        ?>
       </div>
 
+
       <?php include "inc/sidebar.php"; ?>
+
     </div>
   </div>
 </section>
+</div>
+</div>
+</section>
 <!-- ::::::::::: Blog With Right Sidebar End ::::::::: -->
+
+<?php include "inc/footer.php"; ?>

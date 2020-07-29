@@ -136,6 +136,25 @@ include "inc/header.php";
                                 </div>
                             </div>
                             <!-- Single Item Blog Post End -->
+                            <!-- Blog Paginetion Design Start -->
+                            <div class="paginetion">
+                                <ul>
+                                    <!-- Next Button -->
+                                    <li class="blog-prev">
+                                        <a href=""><i class="fa fa-long-arrow-left"></i> Previous</a>
+                                    </li>
+                                    <li><a href="">1</a></li>
+                                    <li><a href="">2</a></li>
+                                    <li class="active"><a href="">3</a></li>
+                                    <li><a href="">4</a></li>
+                                    <li><a href="">5</a></li>
+                                    <!-- Previous Button -->
+                                    <li class="blog-next">
+                                        <a href=""> Next <i class="fa fa-long-arrow-right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Blog Paginetion Design End -->
 
 
                 <?php  }
@@ -149,25 +168,7 @@ include "inc/header.php";
 
 
 
-                <!-- Blog Paginetion Design Start -->
-                <div class="paginetion">
-                    <ul>
-                        <!-- Next Button -->
-                        <li class="blog-prev">
-                            <a href=""><i class="fa fa-long-arrow-left"></i> Previous</a>
-                        </li>
-                        <li><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li class="active"><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <!-- Previous Button -->
-                        <li class="blog-next">
-                            <a href=""> Next <i class="fa fa-long-arrow-right"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Blog Paginetion Design End -->
+
             </div>
 
             <?php include "inc/sidebar.php"; ?>
@@ -175,3 +176,5 @@ include "inc/header.php";
     </div>
 </section>
 <!-- ::::::::::: Blog With Right Sidebar End ::::::::: -->
+
+<?php include "inc/footer.php"; ?>

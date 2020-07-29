@@ -1,5 +1,6 @@
  <!-- Blog Right Sidebar -->
  <div class="col-md-4">
+
      <!-- Latest News -->
      <div class="widget">
          <h4>Latest News</h4>
@@ -8,70 +9,54 @@
          <!-- Sidebar Latest News Slider Start -->
          <div class="sidebar-latest-news owl-carousel owl-theme">
              <!-- First Latest News Start -->
-             <div class="item">
-                 <div class="latest-news">
-                     <!-- Latest News Slider Image -->
-                     <div class="latest-news-image">
-                         <a href="#">
-                             <img src="assets/images/blog/test.jpg" />
-                         </a>
+             <?php
+
+                $blogPost             = "SELECT * FROM post  order by id desc limit 3";
+                $blogPostSql          = mysqli_query($db, $blogPost);
+
+                while ($row = mysqli_fetch_assoc($blogPostSql)) {
+                    $id             = $row['id'];
+                    $title          = $row['title'];
+                    $description    = $row['description'];
+                    $tags           = $row['tags'];
+                    $image          = $row['image'];
+                    $category_id    = $row['category_id'];
+                    $author_id      = $row['author_id'];
+                    $status         = $row['status'];
+                    $post_date      = $row['post_date']; ?>
+                 <div class="item">
+                     <div class="latest-news">
+                         <!-- Latest News Slider Image -->
+                         <div class="latest-news-image">
+                             <a href="#">
+                                 <?php
+                                    if ($image != null) { ?>
+                                     <img src="Admin/image/post/<?php echo $image; ?>" alt="Blog Thumbnail">
+                                 <?php    } else { ?>
+                                     <img src="Admin/image/post/blog.jpg" alt="Blog Thumbnail">
+                                 <?php   }
+
+                                    ?>
+
+                             </a>
+                         </div>
+                         <!-- Latest News Slider Heading -->
+                         <h5><?php echo $title;  ?></h5>
+                         <!-- Latest News Slider Paragraph -->
+                         <p><?php echo substr($description, 0, 100); ?></p>
                      </div>
-                     <!-- Latest News Slider Heading -->
-                     <h5>CONSECTETUR ADIPISICING ELIT, SED DO EIUSMOD.</h5>
-                     <!-- Latest News Slider Paragraph -->
-                     <p>
-                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                         do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                         Ut enim ad minim veniam
-                     </p>
                  </div>
-             </div>
+             <?php  }
+
+                ?>
+
              <!-- First Latest News End -->
 
-             <!-- Second Latest News Start -->
-             <div class="item">
-                 <div class="latest-news">
-                     <!-- Latest News Slider Image -->
-                     <div class="latest-news-image">
-                         <a href="#">
-                             <img src="assets/images/blog/test.jpg" />
-                         </a>
-                     </div>
-                     <!-- Latest News Slider Heading -->
-                     <h5>CONSECTETUR ADIPISICING ELIT, SED DO EIUSMOD.</h5>
-                     <!-- Latest News Slider Paragraph -->
-                     <p>
-                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                         do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                         Ut enim ad minim veniam
-                     </p>
-                 </div>
-             </div>
-             <!-- Second Latest News End -->
 
-             <!-- Third Latest News Start -->
-             <div class="item">
-                 <div class="latest-news">
-                     <!-- Latest News Slider Image -->
-                     <div class="latest-news-image">
-                         <a href="#">
-                             <img src="assets/images/blog/test.jpg" />
-                         </a>
-                     </div>
-                     <!-- Latest News Slider Heading -->
-                     <h5>CONSECTETUR ADIPISICING ELIT, SED DO EIUSMOD.</h5>
-                     <!-- Latest News Slider Paragraph -->
-                     <p>
-                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                         do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                         Ut enim ad minim veniam
-                     </p>
-                 </div>
-             </div>
-             <!-- Third Latest News End -->
          </div>
          <!-- Sidebar Latest News Slider End -->
      </div>
+
 
      <!-- Search Bar Start -->
      <div class="widget">
@@ -82,7 +67,7 @@
              <!-- Search Form Start -->
              <form>
                  <div class="form-group">
-                     <input type="text" name="search" placeholder="Search Here" autocomplete="off" class="form-input" />
+                     <input type="text" name="search" placeholder="Search Here" autocomplete="off" class="form-input">
                      <i class="fa fa-paper-plane-o"></i>
                  </div>
              </form>
@@ -97,80 +82,52 @@
          <div class="title-border"></div>
          <div class="recent-post">
              <!-- Recent Post Item Content Start -->
-             <div class="recent-post-item">
-                 <div class="row">
-                     <!-- Item Image -->
-                     <div class="col-md-4">
-                         <img src="assets/images/corporate-team/team-1.jpg" />
-                     </div>
-                     <!-- Item Tite -->
-                     <div class="col-md-8 no-padding">
-                         <h5>Corporate World is Here with Technology</h5>
-                         <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
-                             <li><i class="fa fa-comment-o"></i>15</li>
-                         </ul>
+             <?php
+                $blogPost             = "SELECT * FROM post  order by id desc limit 5";
+                $blogPostSql          = mysqli_query($db, $blogPost);
+
+                while ($row = mysqli_fetch_assoc($blogPostSql)) {
+                    $id             = $row['id'];
+                    $title          = $row['title'];
+                    $description    = $row['description'];
+                    $tags           = $row['tags'];
+                    $image          = $row['image'];
+                    $category_id    = $row['category_id'];
+                    $author_id      = $row['author_id'];
+                    $status         = $row['status'];
+                    $post_date      = $row['post_date']; ?>
+
+                 <div class="recent-post-item">
+                     <div class="row">
+                         <!-- Item Image -->
+                         <div class="col-md-4">
+                             <?php
+                                if ($image != null) { ?>
+                                 <img src="Admin/image/post/<?php echo $image; ?>" alt="thumbnail">
+                             <?php   } else { ?>
+                                 <img src="Admin/image/post/blog.jpg" alt="thumbnail">
+                             <?php   }
+
+
+                                ?>
+                         </div>
+                         <!-- Item Tite -->
+                         <div class="col-md-8 no-padding">
+                             <h5><?php echo $title; ?></h5>
+                             <ul>
+                                 <li><i class="fa fa-clock-o"></i><?php echo $post_date; ?></li>
+                                 <li><i class="fa fa-comment-o"></i>15</li>
+                             </ul>
+                         </div>
                      </div>
                  </div>
-             </div>
+             <?php }
+                ?>
+
              <!-- Recent Post Item Content End -->
 
-             <!-- Recent Post Item Content Start -->
-             <div class="recent-post-item">
-                 <div class="row">
-                     <!-- Item Image -->
-                     <div class="col-md-4">
-                         <img src="assets/images/corporate-team/team-1.jpg" />
-                     </div>
-                     <!-- Item Tite -->
-                     <div class="col-md-8 no-padding">
-                         <h5>Corporate World is Here with Technology</h5>
-                         <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
-                             <li><i class="fa fa-comment-o"></i>15</li>
-                         </ul>
-                     </div>
-                 </div>
-             </div>
-             <!-- Recent Post Item Content End -->
 
-             <!-- Recent Post Item Content Start -->
-             <div class="recent-post-item">
-                 <div class="row">
-                     <!-- Item Image -->
-                     <div class="col-md-4">
-                         <img src="assets/images/corporate-team/team-1.jpg" />
-                     </div>
-                     <!-- Item Tite -->
-                     <div class="col-md-8 no-padding">
-                         <h5>Corporate World is Here with Technology</h5>
-                         <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
-                             <li><i class="fa fa-comment-o"></i>15</li>
-                         </ul>
-                     </div>
-                 </div>
-             </div>
-             <!-- Recent Post Item Content End -->
 
-             <!-- Recent Post Item Content Start -->
-             <div class="recent-post-item">
-                 <div class="row">
-                     <!-- Item Image -->
-                     <div class="col-md-4">
-                         <img src="assets/images/corporate-team/team-1.jpg" />
-                     </div>
-                     <!-- Item Tite -->
-                     <div class="col-md-8 no-padding">
-                         <h5>Corporate World is Here with Technology</h5>
-                         <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
-                             <li><i class="fa fa-comment-o"></i>15</li>
-                         </ul>
-                     </div>
-                 </div>
-             </div>
-             <!-- Recent Post Item Content End -->
          </div>
      </div>
 
@@ -182,35 +139,30 @@
          <div class="blog-categories">
              <ul>
                  <!-- Category Item -->
-                 <li>
-                     <i class="fa fa-check"></i>
-                     Information Technology
-                     <span>[22]</span>
-                 </li>
+                 <?php
+                    $category               = "SELECT * FROM category";
+                    $categorySql            = mysqli_query($db, $category);
+
+
+                    while ($row = mysqli_fetch_assoc($categorySql)) {
+                        $id                 = $row['id'];
+                        $cat_name           = $row['cat_name'];
+
+                        $categoryCount      = "SELECT * from post where category_id = '$id'";
+                        $categoryCountSql   = mysqli_query($db, $categoryCount);
+                        $total_cat          = mysqli_num_rows($categoryCountSql);  ?>
+                     <li>
+                         <i class="fa fa-check"></i>
+                         <?php echo $cat_name; ?>
+                         <span>[<?php echo $total_cat; ?>]</span>
+                     </li>
+                 <?php     }
+
+
+                    ?>
+
                  <!-- Category Item -->
-                 <li>
-                     <i class="fa fa-check"></i>
-                     Corporate News
-                     <span>[20]</span>
-                 </li>
-                 <!-- Category Item -->
-                 <li>
-                     <i class="fa fa-check"></i>
-                     Web Design and Development
-                     <span>[35]</span>
-                 </li>
-                 <!-- Category Item -->
-                 <li>
-                     <i class="fa fa-check"></i>
-                     Social Media Marketing
-                     <span>[29]</span>
-                 </li>
-                 <!-- Category Item -->
-                 <li>
-                     <i class="fa fa-check"></i>
-                     Search Engine Optimization
-                     <span>[27]</span>
-                 </li>
+
              </ul>
          </div>
          <!-- Blog Category End -->
@@ -221,6 +173,7 @@
          <h4>Recent Comments</h4>
          <div class="title-border"></div>
          <div class="recent-comments">
+
              <!-- Recent Comments Item Start -->
              <div class="recent-comments-item">
                  <div class="row">
@@ -233,7 +186,9 @@
                          <h5>admin on blog posts</h5>
                          <!-- Comments Date -->
                          <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
+                             <li>
+                                 <i class="fa fa-clock-o"></i>Dec 15, 2018
+                             </li>
                          </ul>
                      </div>
                  </div>
@@ -252,7 +207,9 @@
                          <h5>admin on blog posts</h5>
                          <!-- Comments Date -->
                          <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
+                             <li>
+                                 <i class="fa fa-clock-o"></i>Dec 15, 2018
+                             </li>
                          </ul>
                      </div>
                  </div>
@@ -271,12 +228,15 @@
                          <h5>admin on blog posts</h5>
                          <!-- Comments Date -->
                          <ul>
-                             <li><i class="fa fa-clock-o"></i>Dec 15, 2018</li>
+                             <li>
+                                 <i class="fa fa-clock-o"></i>Dec 15, 2018
+                             </li>
                          </ul>
                      </div>
                  </div>
              </div>
              <!-- Recent Comments Item End -->
+
          </div>
      </div>
 
@@ -286,17 +246,26 @@
          <div class="title-border"></div>
          <!-- Meta Tag List Start -->
          <div class="meta-tags">
-             <span>Business</span>
-             <span>Technology</span>
-             <span>Corporate</span>
-             <span>Web Design</span>
-             <span>Development</span>
-             <span>Graphic</span>
-             <span>Digital Marketing</span>
-             <span>SEO</span>
-             <span>Social Media</span>
+             <?php
+                $blogPost             = "SELECT * FROM post  order by id desc limit 5";
+                $blogPostSql          = mysqli_query($db, $blogPost);
+
+                while ($row = mysqli_fetch_assoc($blogPostSql)) {
+                    $id             = $row['id'];
+                    $title          = $row['title'];
+                    $description    = $row['description'];
+                    $tags           = $row['tags'];
+                    $image          = $row['image'];
+                    $category_id    = $row['category_id'];
+                    $author_id      = $row['author_id'];
+                    $status         = $row['status'];
+                    $post_date      = $row['post_date']; ?>
+
+                 <span><?php echo $tags; ?></span>
+             <?php } ?>
          </div>
          <!-- Meta Tag List End -->
      </div>
+
  </div>
  <!-- Right Sidebar End -->

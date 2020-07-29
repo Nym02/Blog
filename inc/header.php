@@ -25,7 +25,7 @@ ob_start();
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon/favicon.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon/favicon.png" />
 
-    <title>Blue Chip | Blog Right Sidebar</title>
+    <title>Blog</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">

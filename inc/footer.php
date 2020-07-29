@@ -168,6 +168,7 @@
 
 <!-- BlueChip Extarnal Script -->
 <script type="text/javascript" src="assets/js/main.js"></script>
+
 <?php ob_end_flush();
 
 
