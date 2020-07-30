@@ -65,7 +65,7 @@
          <div class="title-border"></div>
          <div class="search-bar">
              <!-- Search Form Start -->
-             <form>
+             <form action="search.php" method="POST">
                  <div class="form-group">
                      <input type="text" name="search" placeholder="Search Here" autocomplete="off" class="form-input">
                      <i class="fa fa-paper-plane-o"></i>
