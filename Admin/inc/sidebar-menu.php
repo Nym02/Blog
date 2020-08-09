@@ -29,7 +29,7 @@ while ($row = mysqli_fetch_array($sql)) {
                     <?php if (!empty($currUserImage)) { ?>
                         <img src="image/users/<?php echo $currUserImage; ?>" class="img-circle elevation-2" alt="User Image">
                     <?php } else if (empty($currUserImage)) { ?>
-                        <img src="image/users/d1.png" class="img-circle elevation-2" alt="User Image" <?php } ?>>
+                        <img src="image/users/d1.png" class="img-circle elevation-2" alt="User Image"> <?php } ?>
                 </div>
                 <div class="info">
                     <a href="profile.php" class="d-block"><?php echo $currUserFullname; ?></a>
