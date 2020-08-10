@@ -60,7 +60,7 @@ include "inc/header.php";
                             <div class="blog-post">
                                 <!-- Blog Banner Image -->
                                 <div class="blog-banner">
-                                    <a href="#">
+                                    <a href="single.php?post=<?php echo $id; ?>">
                                         <?php
                                         if (!empty($image)) { ?>
                                             <img src="Admin/image/post/<?php echo $image; ?>" alt="Blog thumbnail">
@@ -91,7 +91,7 @@ include "inc/header.php";
                                 </div>
                                 <!-- Blog Title and Description -->
                                 <div class="blog-description">
-                                    <a href="#">
+                                    <a href="single.php?post=<?php echo $id; ?>">
                                         <h3 class="post-title">
                                             <?php echo $title; ?>
                                         </h3>
@@ -129,7 +129,7 @@ include "inc/header.php";
                                         <div class="col-md-4 read-more-btn">
 
                                             <a href="single.php?post=<?php echo $id; ?>" class="btn-main">Read More <i
-                                                        class="fa fa-angle-double-right"></i></a>
+                                                    class="fa fa-angle-double-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
