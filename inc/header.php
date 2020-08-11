@@ -1,6 +1,6 @@
 <?php
 include "Admin/inc/db.php";
-
+session_start();
 ob_start();
 
 
@@ -70,6 +70,7 @@ ob_start();
                         <ul class="navbar-nav ml-auto">
 
                             <?php
+
                             $getCategory = "SELECT * FROM category";
                             $catSql = mysqli_query($db, $getCategory);
 
@@ -83,15 +84,15 @@ ob_start();
                                 </li>
                             <?php }
 
-                            if (!empty($_SESSION['fullname'])) { ?>
+                            if (!empty($_SESSION['sub_username'])) { ?>
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="Admin/logout.php">Logout</a>
+                                       href="logout.php">Logout</a>
                                 </li>
                             <?php } else { ?>
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="login.php?rdr=index.php">Login</a>
+                                       href="login.php">Login</a>
                                 </li> <li class="nav-item">
                                     <a class="nav-link"
                                        href="register.php">Register</a>

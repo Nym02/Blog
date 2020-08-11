@@ -130,7 +130,7 @@ include("inc/db.php");
                     header("Location: index.php?msg=emailPassDoesNotMatch");
 
                 } else if ($email == $_SESSION['email'] && $hashedPass == $_SESSION['password'] && $_SESSION['status'] == 0) {
-                    header("Location: index.php?msg=contact.php");
+                    header("Location: index.php?msg=inactiveUser");
 
                 }
             }
