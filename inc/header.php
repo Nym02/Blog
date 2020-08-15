@@ -85,15 +85,51 @@ ob_start();
                             <?php }
 
                             if (!empty($_SESSION['sub_username'])) { ?>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="logout.php">Logout</a>
-                                </li>
-                            <?php } else { ?>
+                                <?php
+                                //showing user information
+                                $username = $_SESSION['sub_username'];
+                                $loggedUser = "SELECT * FROM subscriber where sub_username = '$username' ";
+                                $fireLoggedUser = mysqli_query($db, $loggedUser);
+
+                                while ($row = mysqli_fetch_array($fireLoggedUser)) {
+                                    $loggedUsername = $row['sub_username'];
+                                    $loggedUserImage = $row['sub_image'];
+
+                                    ?>
+
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link btn btn-info text-white dropdown-toggle" href="#"
+                                           id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                           <?php echo $loggedUsername; ?>
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="#">Profile
+                                                <?php if ($loggedUserImage != null){ ?>
+                                                <img src="Admin/image/users/<?php echo $loggedUserImage; ?>"
+                                                     alt="" class="ml-4"
+                                                     width="30"></a>
+                                            <?php } else { ?>
+                                                <img src="Admin/image/users/d1.png"
+                                                     alt="" class="ml-4"
+                                                     width="30"></a>
+                                            <?php } ?>
+
+
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="logout.php">Logout</a>
+                                        </div>
+
+                                    </li>
+
+                                <?php }
+                            } else { ?>
                                 <li class="nav-item">
                                     <a class="nav-link"
                                        href="login.php">Login</a>
-                                </li> <li class="nav-item">
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link"
                                        href="register.php">Register</a>
                                 </li>

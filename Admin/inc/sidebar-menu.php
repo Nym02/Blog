@@ -126,6 +126,30 @@ while ($row = mysqli_fetch_array($sql)) {
                 <?php } ?>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Subscriber
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="subscribers.php?do=Manage" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Subscribers</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="subscribers.php?do=Add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New Subscriber</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tree"></i>
                         <p>
                             Posts

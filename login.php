@@ -75,15 +75,15 @@ ob_start();
                     $msg = $_GET['msg'];
 
                     if($msg == 'emptyUsername'){
-                        echo '<div class="alert alert-danger mt-4"> Your username is empty. </div>';
+                        echo '<div class="alert alert-danger mt-4 text-center"> Your username is empty. </div>';
                     } else if($msg == 'emptyPassword'){
-                        echo '<div class="alert alert-danger mt-4"> Your password is empty. </div>';
+                        echo '<div class="alert alert-danger mt-4 text-center"> Your password is empty. </div>';
                     } else if($msg == 'usernamePassEmpty'){
-                        echo '<div class="alert alert-danger mt-4"> Your username & password is empty. </div>';
+                        echo '<div class="alert alert-danger mt-4 text-center"> Your username & password is empty. </div>';
                     }else if($msg == 'inactiveUser'){
-                        echo '<div class="alert alert-danger mt-4"> You are inactive user. Please contact admin. </div>';
+                        echo '<div class="alert alert-danger mt-4 text-center"> You are an inactive user. Please contact <a href="" class="btn btn-info mt-3">admin</a>. </div>';
                     }else if($msg == 'usernamePassDoNotMatch'){
-                        echo '<div class="alert alert-danger mt-4"> Your username & password do not match. </div>';
+                        echo '<div class="alert alert-danger mt-4 text-center"> Your username & password do not match. </div>';
                     }
                 }
                 if (isset($_POST['login'])) {
