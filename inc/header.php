@@ -100,21 +100,21 @@ ob_start();
                                     <li class="nav-item dropdown">
                                         <a class="nav-link btn btn-info text-white dropdown-toggle" href="#"
                                            id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                           aria-expanded="false">
-                                           <?php echo $loggedUsername; ?>
+                                           aria-expanded="false">  <?php if ($loggedUserImage != null) { ?>
+                                                <img src="Admin/image/sub/<?php echo $loggedUserImage; ?>"
+                                                     alt="" class="mr-4"
+                                                     width="30">
+                                            <?php } else { ?>
+                                                <img src="Admin/image/sub/p.png"
+                                                     alt="" class="mr-4"
+                                                     width="30">
+                                            <?php } ?>
+                                            <?php echo $loggedUsername; ?>
                                         </a>
 
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="#">Profile
-                                                <?php if ($loggedUserImage != null){ ?>
-                                                <img src="Admin/image/users/<?php echo $loggedUserImage; ?>"
-                                                     alt="" class="ml-4"
-                                                     width="30"></a>
-                                            <?php } else { ?>
-                                                <img src="Admin/image/users/d1.png"
-                                                     alt="" class="ml-4"
-                                                     width="30"></a>
-                                            <?php } ?>
+                                            <a class="dropdown-item" href="profile.php">Profile </a>
+
 
 
                                             <div class="dropdown-divider"></div>

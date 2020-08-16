@@ -165,6 +165,7 @@
 <!-- JQuery CounterUp JS -->
 <script src="assets/js/waypoints.min.js"></script>
 <script src="assets/js/jquery.counterup.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- BlueChip Extarnal Script -->
 <script type="text/javascript" src="assets/js/main.js"></script>
