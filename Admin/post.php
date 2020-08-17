@@ -77,6 +77,7 @@
                                             $image = $row['image'];
                                             $category_id = $row['category_id'];
                                             $author_id = $row['author_id'];
+                                            $sub_id = $row['sub_id'];
                                             $status = $row['status'];
                                             $post_date = $row['post_date'];
 
@@ -113,7 +114,36 @@
                                                     }
                                                     ?></td>
 
-                                                <td><?php echo $_SESSION['full_name']; ?></td>
+                                                <td><?php
+                                                        if(!empty($author_id) && empty($sub_id)){
+                                                            //getting author name
+                                                            $postAuthor1 = "SELECT * FROM users where id = '$author_id'";
+                                                            $firePostAuthor1 = mysqli_query($db, $postAuthor1);
+                                                            while($row = mysqli_fetch_array($firePostAuthor1)){
+                                                                $authorName = $row['full_name'];
+                                                                echo $authorName;
+                                                            }
+                                                        } else if(empty($author_id) && !empty($sub_id)) {
+                                                            //getting author name
+                                                            $postAuthor1 = "SELECT * FROM subscriber where sub_id = '$sub_id'";
+                                                            $firePostAuthor1 = mysqli_query($db, $postAuthor1);
+                                                            while($row = mysqli_fetch_array($firePostAuthor1)){
+                                                                $authorName = $row['sub_name'];
+                                                                echo $authorName;
+                                                            }
+                                                        } else if(!empty($author_id) && !empty($sub_id)){
+                                                            //getting author name
+                                                            $postAuthor1 = "SELECT * FROM subscriber where sub_id = '$sub_id'";
+                                                            $firePostAuthor1 = mysqli_query($db, $postAuthor1);
+                                                            while($row = mysqli_fetch_array($firePostAuthor1)){
+                                                                $authorName = $row['sub_name'];
+                                                                echo $authorName;
+                                                            }
+                                                        }
+
+
+
+                                                ?></td>
                                                 <td><?php
                                                     if ($status == 1) { ?>
                                                         <span class="badge badge-success">Published</span>
