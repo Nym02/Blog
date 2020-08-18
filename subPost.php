@@ -2,6 +2,36 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper mt-5 mb-5">
+        <!-- Content Header (Page header) -->
+        <div class="row">
+            <div class="col-md-8 m-auto">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="profile.php">Profile</span></a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="subPost.php?do=Manage">Manage Post</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="subPost.php?do=Add">Add Post</a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </nav>
+
+            </div>
+        </div>
 
 
         <?php
@@ -9,36 +39,7 @@
         $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
 
         if ($do == 'Manage') { ?>
-            <!-- Content Header (Page header) -->
-            <div class="row">
-                <div class="col-md-8 m-auto">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="profile.php">Profile</span></a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="subPost.php?do=Manage">Manage Post</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="subPost.php?do=Add">Add Post</a>
-                                </li>
-
-                            </ul>
-
-                        </div>
-                    </nav>
-
-                </div>
-            </div>
 
             <!-- Body content starts  -->
             <section class="content">
@@ -81,7 +82,7 @@
                                                 $bloggername = $row['sub_name'];
                                             }
 
-                                            $getSubPost = "SELECT * FROM post where sub_id = '$getSubID'";
+                                            $getSubPost = "SELECT * FROM post where sub_id = '$getSubID' order by id desc";
                                             $fireGetSubPost = mysqli_query($db, $getSubPost);
 
                                             while ($row = mysqli_fetch_array($fireGetSubPost)) {
@@ -100,10 +101,10 @@
                                                     <td><?php echo $i; ?></td>
                                                     <td><?php
                                                         if (!empty($bgPostThumb)) { ?>
-                                                            <img src="Admin/image/sub/subPost/<?php echo $bgPostThumb; ?>"
+                                                            <img src="Admin/image/post/<?php echo $bgPostThumb; ?>"
                                                                  width="50" alt="">
                                                         <?php } else { ?>
-                                                            <img src="Admin/image/sub/subPost/blog.jpg" width="50"
+                                                            <img src="Admin/image/post/blog.jpg" width="50"
                                                                  alt="">
 
                                                         <?php }
@@ -151,11 +152,11 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="" data-toggle="modal"
+                                                            <a href="#" data-toggle="modal"
                                                                data-target="#view<?php echo $bgPostID; ?>"
                                                                class="btn btn-sm btn-info">View</a>
-                                                            <a href="" class="btn btn-sm btn-primary">Edit</a>
-                                                            <a href="" class="btn btn-sm btn-danger" data-toggle="modal"
+                                                            <a href="" data-toggle="modal" data-target="#edit<?php echo $bgPostID; ?>" class="btn btn-sm btn-primary">Edit</a>
+                                                            <a href="#" class="btn btn-sm btn-danger" data-toggle="modal"
                                                                data-target="#delete<?php echo $bgPostID; ?>">Delete</a>
                                                         </div>
                                                     </td>
@@ -177,22 +178,16 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <?php
 
-                                                                $viewSubPost = "SELECT * FROM post where sub_id = '$getSubID'";
-                                                                $fireviewSubPost = mysqli_query($db, $viewSubPost);
 
-                                                                while ($row = mysqli_fetch_array($fireviewSubPost)) {
-                                                                    $viewPostID = $row['id'];
-                                                                    $viewPostTitle = $row['title'];
-                                                                    $viewPostBody = $row['description']; ?>
 
-                                                                    <span><strong><?php echo $viewPostTitle; ?></strong></span>
+
+                                                                    <span><strong><?php echo $bgPostTitle; ?></strong></span>
                                                                     <hr>
-                                                                    <p><?php echo $viewPostBody; ?></p>
+                                                                    <p><?php echo $bgPostBody; ?></p>
 
 
-                                                                <?php } ?>
+
 
 
                                                             </div>
@@ -221,6 +216,46 @@
                                                                     <a href="" class="btn btn-success" data-dismiss="modal"
                                                                        aria-label="Close">No</a>
                                                                 </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Edit modal-->
+
+                                                <div class="modal fade" id="edit<?php echo $bgPostID; ?>"
+                                                     tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalLabel"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="" method="post" enctype="multipart/form-data">
+                                                                    <div class="form-group">
+                                                                        <label for="">Post Title</label>
+                                                                        <input type="text" class="form-control" value="<?php echo $bgPostTitle; ?>">
+                                                                    </div> <div class="form-group">
+                                                                        <label for="">Post Title</label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div> <div class="form-group">
+                                                                        <label for="">Post Title</label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div> <div class="form-group">
+                                                                        <label for="">Post Title</label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="">Post Title</label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                </form>
                                                             </div>
 
                                                         </div>
@@ -260,36 +295,7 @@
             </section>
             <!-- Body content ends  -->
         <?php } else if ($do == 'Add') { ?>
-            <!-- Content Header (Page header) -->
-            <div class="row">
-                <div class="col-md-8 m-auto">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="profile.php">Profile</span></a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="subPost.php?do=Manage">Manage Post</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="subPost.php?do=Add">Add Post</a>
-                                </li>
-
-                            </ul>
-
-                        </div>
-                    </nav>
-
-                </div>
-            </div>
 
             <!-- Body content starts  -->
             <section class="content">
@@ -375,8 +381,8 @@
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $post_title = mysqli_real_escape_string($db, $_POST['postTitle']);
-                $post_category = mysqli_real_escape_string($db, $_POST['postCategory']);
-                $post_status = mysqli_real_escape_string($db, $_POST['postStatus']);
+                $post_category = $_POST['postCategory'];
+                $post_status =  $_POST['postStatus'];
                 $post_tag = mysqli_real_escape_string($db, $_POST['postTag']);
                 $post_body = mysqli_real_escape_string($db, $_POST['postBody']);
 
@@ -405,11 +411,13 @@
 
                             //insert post data in post table
 
-                            $subPost = "INSERT INTO post(title, description, tags, image, category_id, sub_id, post_date) VALUES ('$post_title', '$post_body','$post_tag', '$thumbnail', '$post_category', '$post_subID', current_timestamp() )";
+                            $subPost = "INSERT INTO post(title, description, tags, image, category_id, sub_id, status, post_date) VALUES ('$post_title', '$post_body','$post_tag', '$thumbnail', '$post_category', '$post_subID','$post_status', current_timestamp() )";
+
                             $fireSubPost = mysqli_query($db, $subPost);
 
+
                             if ($fireSubPost) {
-                                header("Loction: subPost.php?do=Manage");
+                                header("Location: subPost.php?do=Manage");
                             } else {
                                 header("Location: subPost.php?do=Add&msg=postAddUnsuccess&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                             }
@@ -422,14 +430,14 @@
                         header("Location: subPost.php?do=Add&msg=typeError&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                     }
 
-                } else {
+                } else if(empty($post_thumb_name)) {
                     //insert post data in post table
 
-                    $subPost = "INSERT INTO post(title, description, tags, category_id, sub_id, post_date) VALUES ('$post_title', '$post_body','$post_tag', '$post_category', '$post_subID', current_timestamp() )";
+                    $subPost = "INSERT INTO post(title, description, tags, category_id, sub_id, status, post_date) VALUES ('$post_title', '$post_body','$post_tag', '$post_category', '$post_subID', '$post_status', current_timestamp() )";
                     $fireSubPost = mysqli_query($db, $subPost);
 
                     if ($fireSubPost) {
-                        header("Loction: subPost.php?do=Manage");
+                        header("Location: subPost.php?do=Manage");
                     } else {
                         header("Location: subPost.php?do=Add&msg=postAddUnsuccess&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                     }

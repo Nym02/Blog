@@ -43,28 +43,79 @@ include "inc/header.php";
                         $totalCategory = mysqli_num_rows($postCategorySql);
 
 
+                        while ($row = mysqli_fetch_assoc($postCategorySql)) {
+                            $id = $row['id'];
+                            $title = $row['title'];
+                            $description = $row['description'];
+                            $tags = $row['tags'];
+                            $image = $row['image'];
+                            $category_id = $row['category_id'];
+                            $author_id = $row['author_id'];
+                            $status = $row['status'];
+                            $post_date = $row['post_date'];
 
-                        if ($totalCategory == 0) {
+                            $postCategory1 = "SELECT * FROM post WHERE category_id = '$postID' AND status = '0'";
+                            $postCategorySql1 = mysqli_query($db, $postCategory1);
+                            $totalCategory1 = mysqli_num_rows($postCategorySql1);
+
+
+                            ?>
+
+
+                            <!-- Single Item Blog Post End -->
+                            <!-- Blog Paginetion Design Start -->
+                            <!--                                <div class="paginetion">-->
+                            <!--                                    <ul>-->
+                            <!--                                        Next Button -->
+                            <!--                                        <li class="blog-prev">-->
+                            <!--                                            <a href=""><i class="fa fa-long-arrow-left"></i> Previous</a>-->
+                            <!--                                        </li>-->
+                            <!--                                        <li><a href="">1</a></li>-->
+                            <!--                                        <li><a href="">2</a></li>-->
+                            <!--                                        <li class="active"><a href="">3</a></li>-->
+                            <!--                                        <li><a href="">4</a></li>-->
+                            <!--                                        <li><a href="">5</a></li>-->
+                            <!--                                       Previous Button -->
+                            <!--                                        <li class="blog-next">-->
+                            <!--                                            <a href=""> Next <i class="fa fa-long-arrow-right"></i></a>-->
+                            <!--                                        </li>-->
+                            <!--                                    </ul>-->
+                            <!--                                </div>-->
+                            <!-- Blog Paginetion Design End -->
+
+
+                        <?php }
+
+
+                        $postCategory2 = "SELECT * FROM post WHERE category_id = '$postID' order by id desc";
+                        $postCategorySql2 = mysqli_query($db, $postCategory2);
+                        $totalCategory2 = mysqli_num_rows($postCategorySql2);
+                        if ($totalCategory2 == 0) {
+                            echo '<div class="alert alert-danger">Sorry!!! No post availabe.</div>';
+                        } else if ($totalCategory2 == $totalCategory1) {
                             echo '<div class="alert alert-danger">Sorry!!! No post availabe.</div>';
                         } else {
-                            while ($row = mysqli_fetch_assoc($postCategorySql)) {
-                                $id = $row['id'];
+                            while ($row = mysqli_fetch_assoc($postCategorySql2)) {
+                                $idd = $row['id'];
                                 $title = $row['title'];
                                 $description = $row['description'];
                                 $tags = $row['tags'];
                                 $image = $row['image'];
                                 $category_id = $row['category_id'];
                                 $author_id = $row['author_id'];
+                                $sub_id = $row['sub_id'];
                                 $status = $row['status'];
-                                $post_date = $row['post_date']; ?>
+                                $post_date = $row['post_date'];
 
 
+                                if ($status == 0) { ?>
 
+                                <?php } else { ?>
                                     <!-- Single Item Blog Post Start -->
                                     <div class="blog-post">
                                         <!-- Blog Banner Image -->
                                         <div class="blog-banner">
-                                            <a href="#">
+                                            <a href="single.php?post=<?php echo $idd; ?>">
                                                 <?php
                                                 if (!empty($image)) { ?>
                                                     <img src="Admin/image/post/<?php echo $image; ?>"
@@ -96,7 +147,7 @@ include "inc/header.php";
                                         </div>
                                         <!-- Blog Title and Description -->
                                         <div class="blog-description">
-                                            <a href="#">
+                                            <a href="single.php?post=<?php echo $idd; ?>">
                                                 <h3 class="post-title">
                                                     <?php echo $title; ?>
                                                 </h3>
@@ -109,62 +160,66 @@ include "inc/header.php";
                                                 <div class="col-md-8">
                                                     <div class="blog-info">
                                                         <ul>
-                                                            <li><i class="fa fa-calendar"></i><?php echo $post_date; ?>
-                                                            </li>
+                                                            <li><i class="fa fa-calendar"></i><?php
+                                                                $PostDate = explode(" ", $post_date);
+                                                                $actualPostDate = $PostDate[0];
+
+                                                                echo $actualPostDate; ?></li>
                                                             <li><i class="fa fa-user"></i>
+
+
                                                                 <?php
-                                                                $postUser = "SELECT * FROM users WHERE id = '$author_id'";
-                                                                $postUserSql = mysqli_query($db, $postUser);
 
-                                                                while ($row = mysqli_fetch_assoc($postUserSql)) {
-                                                                    $id = $row['id'];
-                                                                    $full_name = $row['full_name']; ?>
-                                                                    by - <?php echo $full_name; ?>
-                                                                <?php }
-
+                                                                if (!empty($author_id) && empty($sub_id)) {
+                                                                    //getting author name
+                                                                    $postAuthor1 = "SELECT * FROM users where id = '$author_id'";
+                                                                    $firePostAuthor1 = mysqli_query($db, $postAuthor1);
+                                                                    while ($row = mysqli_fetch_array($firePostAuthor1)) {
+                                                                        $authorName = $row['full_name'];
+                                                                        echo "by-" . $authorName;
+                                                                    }
+                                                                } else if (empty($author_id) && !empty($sub_id)) {
+                                                                    //getting author name
+                                                                    $postAuthor1 = "SELECT * FROM subscriber where sub_id = '$sub_id'";
+                                                                    $firePostAuthor1 = mysqli_query($db, $postAuthor1);
+                                                                    while ($row = mysqli_fetch_array($firePostAuthor1)) {
+                                                                        $authorName = $row['sub_name'];
+                                                                        echo "by-" . $authorName;
+                                                                    }
+                                                                } else if (!empty($author_id) && !empty($sub_id)) {
+                                                                    //getting author name
+                                                                    $postAuthor1 = "SELECT * FROM subscriber where sub_id = '$sub_id'";
+                                                                    $firePostAuthor1 = mysqli_query($db, $postAuthor1);
+                                                                    while ($row = mysqli_fetch_array($firePostAuthor1)) {
+                                                                        $authorName = $row['sub_name'];
+                                                                        echo "by-" . $authorName;
+                                                                    }
+                                                                }
 
                                                                 ?>
 
 
-                                                            </li>
+                                                            </li></li>
                                                             <li><i class="fa fa-heart"></i>(50)</li>
                                                         </ul>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-4 read-more-btn">
-                                                    <button type="button" class="btn-main">
+                                                    <a href="single.php?post=<?php echo $idd; ?>" class="btn-main">
                                                         Read More <i class="fa fa-angle-double-right"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                <!-- Single Item Blog Post End -->
-                                <!-- Blog Paginetion Design Start -->
-<!--                                <div class="paginetion">-->
-<!--                                    <ul>-->
-<!--                                        Next Button -->
-<!--                                        <li class="blog-prev">-->
-<!--                                            <a href=""><i class="fa fa-long-arrow-left"></i> Previous</a>-->
-<!--                                        </li>-->
-<!--                                        <li><a href="">1</a></li>-->
-<!--                                        <li><a href="">2</a></li>-->
-<!--                                        <li class="active"><a href="">3</a></li>-->
-<!--                                        <li><a href="">4</a></li>-->
-<!--                                        <li><a href="">5</a></li>-->
-<!--                                       Previous Button -->
-<!--                                        <li class="blog-next">-->
-<!--                                            <a href=""> Next <i class="fa fa-long-arrow-right"></i></a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
-                                <!-- Blog Paginetion Design End -->
+                                <?php }
+                                ?>
 
 
                             <?php }
                         }
+
                     }
 
 
