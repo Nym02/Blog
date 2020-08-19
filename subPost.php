@@ -76,6 +76,7 @@
                                             $i = 0;
                                             $getSubID = $_SESSION['sub_id'];
                                             $blogger = "SELECT * FROM subscriber where sub_id = '$getSubID'";
+
                                             $fireBlogger = mysqli_query($db, $blogger);
 
                                             while ($row = mysqli_fetch_array($fireBlogger)) {
@@ -155,8 +156,11 @@
                                                             <a href="#" data-toggle="modal"
                                                                data-target="#view<?php echo $bgPostID; ?>"
                                                                class="btn btn-sm btn-info">View</a>
-                                                            <a href="" data-toggle="modal" data-target="#edit<?php echo $bgPostID; ?>" class="btn btn-sm btn-primary">Edit</a>
-                                                            <a href="#" class="btn btn-sm btn-danger" data-toggle="modal"
+                                                            <a href="" data-toggle="modal"
+                                                               data-target="#edit<?php echo $bgPostID; ?>"
+                                                               class="btn btn-sm btn-primary">Edit</a>
+                                                            <a href="#" class="btn btn-sm btn-danger"
+                                                               data-toggle="modal"
                                                                data-target="#delete<?php echo $bgPostID; ?>">Delete</a>
                                                         </div>
                                                     </td>
@@ -180,14 +184,9 @@
                                                             <div class="modal-body">
 
 
-
-
-                                                                    <span><strong><?php echo $bgPostTitle; ?></strong></span>
-                                                                    <hr>
-                                                                    <p><?php echo $bgPostBody; ?></p>
-
-
-
+                                                                <span><strong><?php echo $bgPostTitle; ?></strong></span>
+                                                                <hr>
+                                                                <p><?php echo $bgPostBody; ?></p>
 
 
                                                             </div>
@@ -204,7 +203,8 @@
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Want to delete this post?</h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel">Want to
+                                                                    delete this post?</h5>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
@@ -212,8 +212,10 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="btn-group">
-                                                                    <a href="subPost.php?do=Delete&id=<?php echo $bgPostID; ?>" class="btn btn-danger">Yes</a>
-                                                                    <a href="" class="btn btn-success" data-dismiss="modal"
+                                                                    <a href="subPost.php?do=Delete&id=<?php echo $bgPostID; ?>"
+                                                                       class="btn btn-danger">Yes</a>
+                                                                    <a href="" class="btn btn-success"
+                                                                       data-dismiss="modal"
                                                                        aria-label="Close">No</a>
                                                                 </div>
                                                             </div>
@@ -230,30 +232,74 @@
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel">Edit
+                                                                    Post</h5>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form action="" method="post" enctype="multipart/form-data">
+                                                                <form action="subPost.php?do=Update" method="post"
+                                                                      enctype="multipart/form-data">
                                                                     <div class="form-group">
                                                                         <label for="">Post Title</label>
-                                                                        <input type="text" class="form-control" value="<?php echo $bgPostTitle; ?>">
-                                                                    </div> <div class="form-group">
-                                                                        <label for="">Post Title</label>
-                                                                        <input type="text" class="form-control">
-                                                                    </div> <div class="form-group">
-                                                                        <label for="">Post Title</label>
-                                                                        <input type="text" class="form-control">
-                                                                    </div> <div class="form-group">
-                                                                        <label for="">Post Title</label>
-                                                                        <input type="text" class="form-control">
+                                                                        <input type="text" class="form-control"
+                                                                               name="titlePost"
+                                                                               value="<?php echo $bgPostTitle; ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="">Post Title</label>
-                                                                        <input type="text" class="form-control">
+                                                                        <label for="">Post Category</label>
+                                                                        <select name="categoryPost" id=""
+                                                                                class="form-control">
+                                                                            <option value="">Select your category
+                                                                            </option>
+
+                                                                            <?php
+                                                                            $editPostCat = "SELECT * FROM category";
+                                                                            $fireEditPostCat = mysqli_query($db, $editPostCat);
+
+                                                                            while ($row = mysqli_fetch_assoc($fireEditPostCat)) {
+                                                                                $editCatID = $row['id'];
+                                                                                $editCatName = $row['cat_name']; ?>
+
+                                                                                <option value="<?php echo $editCatID ?>" <?php if ($editCatID == $bgPostCategory) {
+                                                                                    echo "selected";
+                                                                                } ?> ><?php echo $editCatName; ?></option>
+
+                                                                            <?php } ?>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="">Post Status</label>
+                                                                        <select name="statusPost" id="" class="form-control">
+                                                                            <option value="0" <?php if($bgPostStatus == 0){ echo "selected";} ?>>Draft</option>
+                                                                            <option value="1" <?php if($bgPostStatus == 1){ echo "selected";} ?>>Published</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="">Post Tags</label>
+                                                                        <input type="text" class="form-control" name="tagPost" value="<?php echo $bgPostTag; ?>">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="">Post Body</label>
+                                                                        <textarea name="bodyPost" id="" cols="30"
+                                                                                  rows="10" class="form-control"><?php echo $bgPostBody; ?></textarea>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6"><div class="form-group">
+                                                                                <label for="">Post Thumbnail</label>
+                                                                                <input type="file"
+                                                                                       class="form-control-file" name="thumbPost">
+                                                                            </div></div>
+                                                                        <div class="col-md-6"></div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="hidden" name="updateSubPostID" value="<?php echo $bgPostID; ?>">
+                                                                        <input type="submit" name="updateSubPost" value="Update Post"
+                                                                               class="btn btn-info btn-flat">
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -382,7 +428,7 @@
 
                 $post_title = mysqli_real_escape_string($db, $_POST['postTitle']);
                 $post_category = $_POST['postCategory'];
-                $post_status =  $_POST['postStatus'];
+                $post_status = $_POST['postStatus'];
                 $post_tag = mysqli_real_escape_string($db, $_POST['postTag']);
                 $post_body = mysqli_real_escape_string($db, $_POST['postBody']);
 
@@ -430,7 +476,7 @@
                         header("Location: subPost.php?do=Add&msg=typeError&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                     }
 
-                } else if(empty($post_thumb_name)) {
+                } else if (empty($post_thumb_name)) {
                     //insert post data in post table
 
                     $subPost = "INSERT INTO post(title, description, tags, category_id, sub_id, status, post_date) VALUES ('$post_title', '$post_body','$post_tag', '$post_category', '$post_subID', '$post_status', current_timestamp() )";
@@ -449,6 +495,58 @@
         } else if ($do == 'Edit') {
 
         } else if ($do == 'Update') {
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+                    $updateSubPostID = $_POST['updateSubPostID'];
+                    $titlePost = mysqli_real_escape_string($db, $_POST['titlePost']);
+                    $categoryPost = $_POST['categoryPost'];
+                    $statusPost = $_POST['statusPost'];
+                    $tagPost = mysqli_real_escape_string($db, $_POST['tagPost']);
+                    $bodyPost = mysqli_real_escape_string($db, $_POST['bodyPost']);
+
+
+                    $thumbPost = $_FILES['thumbPost'];
+                    $thumbPost_name = $_FILES['thumbPost']['name'];
+                    $thumbPost_size = $_FILES['thumbPost']['size'];
+                    $thumbPost_type = $_FILES['thumbPost']['type'];
+                    $thumbPost_tmpName = $_FILES['thumbPost']['tmp_name'];
+
+                    $imgExtension = explode(".", $thumbPost_name);
+                    $actualImgExtension = strtolower(end($imgExtension));
+
+                    $allowedImgExtension = array("jpg", "png", "jpeg");
+
+
+                    if(!empty($thumbPost_name)){
+                        if(in_array($actualImgExtension, $allowedImgExtension)){
+                            if($thumbPost_size < 50000){
+
+                                $actualPhoto = uniqid("BloggerPostThumbnail" . "_" . $thumbPost_name);
+                                move_uploaded_file($thumbPost_type, "Admin/image/post/" . $actualPhoto);
+
+
+                                $delSubPostImg = "SELECT * FROM post WHERE id = '$updateSubPostID'";
+                                $fireDelSubPostImg = mysqli_query($db, $delSubPostImg);
+
+                                while($row = mysqli_fetch_assoc($fireDelSubPostImg)){
+                                        $existingThumb = $row['image'];
+                                }
+                                unlink("Admin/image/post/". $existingThumb);
+
+                            } else {
+                                header("Location: subPost.php?do=Manage&msg=sizeError");
+                            }
+                        } else {
+                            header("Location: subPost.php?do=Manage&msg=typeError");
+                        }
+
+                    } else {
+
+                    }
+
+            }
+
+            
 
         } else if ($do == 'Delete') {
 
