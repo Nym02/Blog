@@ -68,21 +68,23 @@ ob_start();
                         <button class="login100-form-btn" name="login" type="submit">
                             Login
                         </button>
+
                     </div>
                 </div>
                 <?php
-                if(isset($_GET['msg'])){
+
+                if (isset($_GET['msg'])) {
                     $msg = $_GET['msg'];
 
-                    if($msg == 'emptyUsername'){
+                    if ($msg == 'emptyUsername') {
                         echo '<div class="alert alert-danger mt-4 text-center"> Your username is empty. </div>';
-                    } else if($msg == 'emptyPassword'){
+                    } else if ($msg == 'emptyPassword') {
                         echo '<div class="alert alert-danger mt-4 text-center"> Your password is empty. </div>';
-                    } else if($msg == 'usernamePassEmpty'){
+                    } else if ($msg == 'usernamePassEmpty') {
                         echo '<div class="alert alert-danger mt-4 text-center"> Your username & password is empty. </div>';
-                    }else if($msg == 'inactiveUser'){
+                    } else if ($msg == 'inactiveUser') {
                         echo '<div class="alert alert-danger mt-4 text-center"> You are an inactive user. Please contact <a href="" class="btn btn-info mt-3">admin</a>. </div>';
-                    }else if($msg == 'usernamePassDoNotMatch'){
+                    } else if ($msg == 'usernamePassDoNotMatch') {
                         echo '<div class="alert alert-danger mt-4 text-center"> Your username & password do not match. </div>';
                     }
                 }
@@ -90,35 +92,41 @@ ob_start();
                     $username = mysqli_real_escape_string($db, $_POST['username']);
                     $password = mysqli_real_escape_string($db, $_POST['password']);
 
-                    $loginHashedPassword  = sha1($password);
+                    $loginHashedPassword = sha1($password);
 
 
                     //fetching login information for user from the database
-                    $loginInfo  = "SELECT * FROM subscriber WHERE sub_username = '$username'";
+                    $loginInfo = "SELECT * FROM subscriber WHERE sub_username = '$username'";
                     $loginInfoQuery = mysqli_query($db, $loginInfo);
 
 
-                    while($row = mysqli_fetch_array($loginInfoQuery)){
-                        $_SESSION['sub_id']  = $row['sub_id'];
+                    while ($row = mysqli_fetch_array($loginInfoQuery)) {
+                        $_SESSION['sub_id'] = $row['sub_id'];
                         $_SESSION['sub_name'] = $row['sub_name'];
                         $_SESSION['sub_username'] = $row['sub_username'];
                         $_SESSION['sub_email'] = $row['sub_email'];
                         $_SESSION['sub_password'] = $row['sub_password'];
                         $_SESSION['sub_status'] = $row['sub_status'];
                         $_SESSION['sub_image'] = $row['sub_image'];
+
                     }
 
-                    if(empty($username)  && !empty($password)){
+                    if (empty($username) && !empty($password)) {
                         header("Location: login.php?msg=emptyUsername");
-                    } else if(!empty($username) && empty($password)){
+                    } else if (!empty($username) && empty($password)) {
                         header("Location: login.php?msg=emptyPassword");
-                    } else if(empty($username)  && empty($password)){
+                    } else if (empty($username) && empty($password)) {
                         header("Location: login.php?msg=usernamePassEmpty");
-                    } else if($username == $_SESSION['sub_username'] && $loginHashedPassword == $_SESSION['sub_password'] && $_SESSION['sub_status'] == 1){
-                        header("Location: index.php?msg=loginSuccess");
-                    } else if($username == $_SESSION['sub_username'] && $loginHashedPassword == $_SESSION['sub_password'] && $_SESSION['sub_status'] == 0){
+                    } else if ($username == $_SESSION['sub_username'] && $loginHashedPassword == $_SESSION['sub_password'] && $_SESSION['sub_status'] == 1) {
+                        if (isset($_GET['post'])) {
+                            $postID = $_GET['post'];
+                            header("Location: single.php?post=$postID");
+                        } else {
+                            header("Location: index.php?msg=loginSuccess");
+                        }
+                    } else if ($username == $_SESSION['sub_username'] && $loginHashedPassword == $_SESSION['sub_password'] && $_SESSION['sub_status'] == 0) {
                         header("Location: login.php?msg=inactiveUser");
-                    } else if($username == $_SESSION['sub_username'] && $loginHashedPassword != $_SESSION['sub_password']){
+                    } else if ($username == $_SESSION['sub_username'] && $loginHashedPassword != $_SESSION['sub_password']) {
                         header("Location: login.php?msg=usernamePassDoNotMatch");
                     }
 
@@ -149,17 +157,28 @@ ob_start();
 						<span class="txt1 p-b-17">
 							Or Sign Up Using
 						</span>
+                    <?php
+                    if (isset($_GET['post'])) {
+                        $postid = $_GET['post'];
+                        ?>
 
-                    <a href="register.php" class="txt2">
-                        Sign Up
-                    </a>
+                        <a href="register.php?post=<?php echo $postid;?>" class="txt2">
+                            Sign Up
+                        </a>
+                    <?php } else { ?>
+                        <a href="register.php" class="txt2">
+                            Sign Up
+                        </a>
+                    <?php }
+
+
+                    ?>
+
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
 
 
 <div id="dropDownSelect1"></div>

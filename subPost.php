@@ -273,32 +273,47 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Post Status</label>
-                                                                        <select name="statusPost" id="" class="form-control">
-                                                                            <option value="0" <?php if($bgPostStatus == 0){ echo "selected";} ?>>Draft</option>
-                                                                            <option value="1" <?php if($bgPostStatus == 1){ echo "selected";} ?>>Published</option>
+                                                                        <select name="statusPost" id=""
+                                                                                class="form-control">
+                                                                            <option value="0" <?php if ($bgPostStatus == 0) {
+                                                                                echo "selected";
+                                                                            } ?>>Draft
+                                                                            </option>
+                                                                            <option value="1" <?php if ($bgPostStatus == 1) {
+                                                                                echo "selected";
+                                                                            } ?>>Published
+                                                                            </option>
 
                                                                         </select>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Post Tags</label>
-                                                                        <input type="text" class="form-control" name="tagPost" value="<?php echo $bgPostTag; ?>">
+                                                                        <input type="text" class="form-control"
+                                                                               name="tagPost"
+                                                                               value="<?php echo $bgPostTag; ?>">
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Post Body</label>
                                                                         <textarea name="bodyPost" id="" cols="30"
-                                                                                  rows="10" class="form-control"><?php echo $bgPostBody; ?></textarea>
+                                                                                  rows="10"
+                                                                                  class="form-control"><?php echo $bgPostBody; ?></textarea>
                                                                     </div>
                                                                     <div class="row">
-                                                                        <div class="col-md-6"><div class="form-group">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
                                                                                 <label for="">Post Thumbnail</label>
                                                                                 <input type="file"
-                                                                                       class="form-control-file" name="thumbPost">
-                                                                            </div></div>
+                                                                                       class="form-control-file"
+                                                                                       name="thumbPost">
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="col-md-6"></div>
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <input type="hidden" name="updateSubPostID" value="<?php echo $bgPostID; ?>">
-                                                                        <input type="submit" name="updateSubPost" value="Update Post"
+                                                                        <input type="hidden" name="updateSubPostID"
+                                                                               value="<?php echo $bgPostID; ?>">
+                                                                        <input type="submit" name="updateSubPost"
+                                                                               value="Update Post"
                                                                                class="btn btn-info btn-flat">
                                                                     </div>
                                                                 </form>
@@ -495,60 +510,99 @@
         } else if ($do == 'Edit') {
 
         } else if ($do == 'Update') {
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                    $updateSubPostID = $_POST['updateSubPostID'];
-                    $titlePost = mysqli_real_escape_string($db, $_POST['titlePost']);
-                    $categoryPost = $_POST['categoryPost'];
-                    $statusPost = $_POST['statusPost'];
-                    $tagPost = mysqli_real_escape_string($db, $_POST['tagPost']);
-                    $bodyPost = mysqli_real_escape_string($db, $_POST['bodyPost']);
-
-
-                    $thumbPost = $_FILES['thumbPost'];
-                    $thumbPost_name = $_FILES['thumbPost']['name'];
-                    $thumbPost_size = $_FILES['thumbPost']['size'];
-                    $thumbPost_type = $_FILES['thumbPost']['type'];
-                    $thumbPost_tmpName = $_FILES['thumbPost']['tmp_name'];
-
-                    $imgExtension = explode(".", $thumbPost_name);
-                    $actualImgExtension = strtolower(end($imgExtension));
-
-                    $allowedImgExtension = array("jpg", "png", "jpeg");
+                $updateSubPostID = $_POST['updateSubPostID'];
+                $titlePost = mysqli_real_escape_string($db, $_POST['titlePost']);
+                $categoryPost = $_POST['categoryPost'];
+                $statusPost = $_POST['statusPost'];
+                $tagPost = mysqli_real_escape_string($db, $_POST['tagPost']);
+                $bodyPost = mysqli_real_escape_string($db, $_POST['bodyPost']);
 
 
-                    if(!empty($thumbPost_name)){
-                        if(in_array($actualImgExtension, $allowedImgExtension)){
-                            if($thumbPost_size < 50000){
+                $thumbPost = $_FILES['thumbPost'];
+                $thumbPost_name = $_FILES['thumbPost']['name'];
+                $thumbPost_size = $_FILES['thumbPost']['size'];
+                $thumbPost_type = $_FILES['thumbPost']['type'];
+                $thumbPost_tmpName = $_FILES['thumbPost']['tmp_name'];
 
-                                $actualPhoto = uniqid("BloggerPostThumbnail" . "_" . $thumbPost_name);
-                                move_uploaded_file($thumbPost_type, "Admin/image/post/" . $actualPhoto);
+                $imgExtension = explode(".", $thumbPost_name);
+                $actualImgExtension = strtolower(end($imgExtension));
+
+                $allowedImgExtension = array("jpg", "png", "jpeg");
 
 
-                                $delSubPostImg = "SELECT * FROM post WHERE id = '$updateSubPostID'";
-                                $fireDelSubPostImg = mysqli_query($db, $delSubPostImg);
+                if (!empty($thumbPost_name)) {
+                    if (in_array($actualImgExtension, $allowedImgExtension)) {
+                        if ($thumbPost_size < 50000) {
 
-                                while($row = mysqli_fetch_assoc($fireDelSubPostImg)){
-                                        $existingThumb = $row['image'];
-                                }
-                                unlink("Admin/image/post/". $existingThumb);
+                            $actualPhoto = uniqid("BloggerPostThumbnail" . "_" . $thumbPost_name);
+                            move_uploaded_file($thumbPost_type, "Admin/image/post/" . $actualPhoto);
 
-                            } else {
-                                header("Location: subPost.php?do=Manage&msg=sizeError");
+
+                            $delSubPostImg = "SELECT * FROM post WHERE id = '$updateSubPostID'";
+                            $fireDelSubPostImg = mysqli_query($db, $delSubPostImg);
+
+                            while ($row = mysqli_fetch_assoc($fireDelSubPostImg)) {
+                                $existingThumb = $row['image'];
                             }
+                            unlink("Admin/image/post/" . $existingThumb);
+
+                            $updateSubPost = "UPDATE post SET title='$titlePost',description='$bodyPost',tags='$tagPost',image='$actualPhoto',category_id='$categoryPost',status='$statusPost' WHERE id = '$updateSubPostID'";
+                            $updateSubPostQuery = mysqli_query($db, $updateSubPost);
+
+                            if ($updateSubPostQuery) {
+                                header("Location: subPost.php?do=Manage");
+                            } else {
+                                header("Location: subPost.php?do=Manage&msg=updateError");
+                            }
+
+
                         } else {
-                            header("Location: subPost.php?do=Manage&msg=typeError");
+                            header("Location: subPost.php?do=Manage&msg=sizeError");
                         }
-
                     } else {
-
+                        header("Location: subPost.php?do=Manage&msg=typeError");
                     }
+
+                } else {
+                    $updateSubPost = "UPDATE post SET title='$titlePost',description='$bodyPost',tags='$tagPost',category_id='$categoryPost',status='$statusPost' WHERE id = '$updateSubPostID'";
+                    $updateSubPostQuery = mysqli_query($db, $updateSubPost);
+
+                    if ($updateSubPostQuery) {
+                        header("Location: subPost.php?do=Manage");
+                    } else {
+                        header("Location: subPost.php?do=Manage&msg=updateError");
+                    }
+
+                }
 
             }
 
-            
 
         } else if ($do == 'Delete') {
+            if(isset($_GET['id'])){
+                $delID = $_GET['id'];
+                //delete existing image from storage
+
+                $imageDel = "SELECT * from post where id ='$delID'";
+                $imageDelSql = mysqli_query($db, $imageDel);
+
+                while ($row = mysqli_fetch_assoc($imageDelSql)) {
+                    $existingImg = $row['image'];
+                }
+                unlink("Admin/image/sub/" . $existingImg);
+
+                $queryDel = "DELETE from post where id = '$delID'";
+                $queryDelSql = mysqli_query($db, $queryDel);
+
+
+                if ($queryDelSql) {
+                    header("Location: subPost.php?do=Manage");
+                } else {
+                    header("Location: subPost.php?do=Manage&msg=delError");
+                }
+            }
 
         }
 

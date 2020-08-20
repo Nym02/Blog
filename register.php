@@ -92,26 +92,50 @@ ob_start();
             </form>
             <?php
             if (isset($_POST['registerUser'])) {
-                $fullname  = mysqli_real_escape_string($db, $_POST['fullname']);
-                $username  = mysqli_real_escape_string($db, $_POST['username']);
-                $email     = mysqli_real_escape_string($db, $_POST['email']);
-                $password  = mysqli_real_escape_string($db, $_POST['password']);
+                $fullname = mysqli_real_escape_string($db, $_POST['fullname']);
+                $username = mysqli_real_escape_string($db, $_POST['username']);
+                $email = mysqli_real_escape_string($db, $_POST['email']);
+                $password = mysqli_real_escape_string($db, $_POST['password']);
                 $rePassword = mysqli_real_escape_string($db, $_POST['rePassword']);
 
-                if($password == $rePassword){
-                    $hashedPass  = sha1($password);
+                if ($password == $rePassword) {
+                    $hashedPass = sha1($password);
 
                     $registerSubscriber = "INSERT INTO subscriber(sub_name	,sub_username, sub_email, sub_password,sub_status,sub_date) VALUES ('$fullname', '$username', '$email', '$hashedPass', 1, now())";
                     $registerSubscriberQuery = mysqli_query($db, $registerSubscriber);
 
-                    if($registerSubscriberQuery){
-                        header("Location: login.php?msg=registrationSuccess");
+                    if ($registerSubscriberQuery) {
+                        if (isset($_GET['post'])) {
+                            $postid = $_GET['post'];
+
+                            header("Location: login.php?msg=registrationSuccess&post=$postid");
+                        } else {
+                            header("Location: login.php?msg=registrationSuccess");
+                         }
+
+
+
                     } else {
-                        header("Location: register.php?msg=registrationNotSuccess");
+                        if (isset($_GET['post'])) {
+                            $postid = $_GET['post'];
+                            header("Location: register.php?msg=registrationNotSuccess&post=$postid");
+
+                        } else {
+                            header("Location: register.php?msg=registrationNotSuccess");
+                        }
+
                     }
 
                 } else {
-                    header("Location: register.php?msg=noMatchPass");
+                    if (isset($_GET['post'])) {
+                        $postid = $_GET['post'];
+                        header("Location: register.php?msg=noMatchPass&post=$postid");
+
+
+                    } else {
+                        header("Location: register.php?msg=noMatchPass");
+                    }
+
                 }
 
             }
