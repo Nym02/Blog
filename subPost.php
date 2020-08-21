@@ -54,7 +54,27 @@
                                 </div>
                                 <div class="card-body mt-0">
 
-                                    <div class="table-responsive">
+
+                                            <?php
+                                            $i = 0;
+                                            $getSubID = $_SESSION['sub_id'];
+                                            $blogger = "SELECT * FROM subscriber where sub_id = '$getSubID'";
+
+                                            $fireBlogger = mysqli_query($db, $blogger);
+
+                                            while ($row = mysqli_fetch_array($fireBlogger)) {
+                                                $bloggername = $row['sub_name'];
+                                            }
+
+                                            $getSubPost = "SELECT * FROM post where sub_id = '$getSubID' order by id desc";
+                                            $fireGetSubPost = mysqli_query($db, $getSubPost);
+                                            $totalSubPost = mysqli_num_rows($fireGetSubPost);
+
+                                            if($totalSubPost == 0){
+                                                echo '<div class="alert alert-info">No post available.</div>';
+                                            } else { ?>
+
+<div class="table-responsive">
                                         <table id="example" class="table table-striped table-bordered"
                                                style="width:100%">
                                             <thead>
@@ -72,21 +92,8 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <?php
-                                            $i = 0;
-                                            $getSubID = $_SESSION['sub_id'];
-                                            $blogger = "SELECT * FROM subscriber where sub_id = '$getSubID'";
 
-                                            $fireBlogger = mysqli_query($db, $blogger);
-
-                                            while ($row = mysqli_fetch_array($fireBlogger)) {
-                                                $bloggername = $row['sub_name'];
-                                            }
-
-                                            $getSubPost = "SELECT * FROM post where sub_id = '$getSubID' order by id desc";
-                                            $fireGetSubPost = mysqli_query($db, $getSubPost);
-
-                                            while ($row = mysqli_fetch_array($fireGetSubPost)) {
+                                        <?php    while ($row = mysqli_fetch_array($fireGetSubPost)) {
                                                 $bgPostID = $row['id'];
                                                 $bgPostTitle = $row['title'];
                                                 $bgPostBody = $row['description'];
@@ -323,11 +330,7 @@
                                                     </div>
                                                 </div>
 
-                                            <?php }
-
-
-                                            ?>
-
+                                            <?php }  ?>
 
                                             </tbody>
                                             <tfoot>
@@ -345,6 +348,13 @@
                                             </tr>
                                             </tfoot>
                                         </table>
+                                  <?php          }
+
+
+                                            ?>
+
+
+
                                     </div>
                                 </div>
                             </div>
