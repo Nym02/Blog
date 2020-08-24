@@ -3,6 +3,9 @@ include "Admin/inc/db.php";
 session_start();
 ob_start();
 
+include "access.php";
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $replyID = $_POST['replyID'];
     $postID = $_POST['postID'];

@@ -1,5 +1,8 @@
 <?php include "inc/header.php"; ?>
+<?php
+include "access.php";
 
+?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper mt-5 mb-5">
         <!-- Content Header (Page header) -->

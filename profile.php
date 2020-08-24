@@ -1,6 +1,9 @@
 <?php include "inc/header.php"; ?>
 
+<?php
+include "access.php";
 
+?>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -140,3 +143,37 @@
 </div>
 
 <?php include "inc/footer.php"; ?>
+
+<script>
+    <?php
+    if(isset($_GET['msg'])){
+    $msg = $_GET['msg'];
+    if($msg == 'fileError'){ ?>
+    toastr.error("File is too large.");
+
+    <?php } else if ($msg == 'typeError'){ ?>
+    toastr.error("Invalid image type. Valid Type: jpg, jpeg, png");
+
+    <?php } else if ($msg == 'existUsername'){ ?>
+    toastr.error("Username already exist.");
+
+    <?php } else if ($msg == 'existEmail'){ ?>
+    toastr.error("Email already exist.");
+
+    <?php } else if ($msg == 'passnotmatch'){ ?>
+    toastr.error("Password do not match.");
+
+    <?php }else if ($msg == 'addSuccess'){ ?>
+    toastr.success("Subscriber added successfully.");
+
+    <?php }else if ($msg == 'updateSuccess'){ ?>
+    toastr.success("Subscriber info update successfully");
+
+    <?php }else if ($msg == 'deleteSuccess'){ ?>
+    toastr.success("Subscriber deleted successfully");
+    <?php }
+    }
+
+    ?>
+
+</script>

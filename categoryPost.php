@@ -2,7 +2,10 @@
 include "inc/header.php";
 
 ?>
+<?php
+include "access.php";
 
+?>
     <!-- :::::::::: Page Banner Section Start :::::::: -->
     <section class="blog-bg background-img">
         <div class="container">

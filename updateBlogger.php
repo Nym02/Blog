@@ -156,20 +156,20 @@ include "inc/header.php";
                                                 $updateInfoQuery = mysqli_query($db, $updateInfo);
 
                                                 if($updateInfoQuery){
-                                                    header("Location: profile.php");
+                                                    header("Location: profile.php?msg=updateSuccess");
                                                 } else {
                                                     header("Location: updateBlogger.php?id=$updateSubID&msg=updateError");
                                                 }
 
                                             } else{
-                                                header("Location: updateBlogger.php?id=$updateSubID&msg=sizeError");
+                                                header("Location: updateBlogger.php?id=$updateSubID&msg=fileError");
                                             }
 
                                         } else {
                                             header("Location: updateBlogger.php?id=$updateSubID&msg=typeError");
                                         }
                                     } else {
-                                        header("Location: updateBlogger.php?id=$updateSubID&msg=passError");
+                                        header("Location: updateBlogger.php?id=$updateSubID&msg=passnotmatch");
                                     }
                                 } else if(empty($subPassword) && !empty($image_name)){
                                     if(in_array($actualImgExt, $allowedExt)){
@@ -280,6 +280,39 @@ include "inc/header.php";
 
 
 ?>
+<script>
+    <?php
+    if(isset($_GET['msg'])){
+    $msg = $_GET['msg'];
+    if($msg == 'fileError'){ ?>
+    toastr.error("File is too large.");
+
+    <?php } else if ($msg == 'typeError'){ ?>
+    toastr.error("Invalid image type. Valid Type: jpg, jpeg, png");
+
+    <?php } else if ($msg == 'existUsername'){ ?>
+    toastr.error("Username already exist.");
+
+    <?php } else if ($msg == 'existEmail'){ ?>
+    toastr.error("Email already exist.");
+
+    <?php } else if ($msg == 'passnotmatch'){ ?>
+    toastr.error("Password do not match.");
+
+    <?php }else if ($msg == 'addSuccess'){ ?>
+    toastr.success("Subscriber added successfully.");
+
+    <?php }else if ($msg == 'updateSuccess'){ ?>
+    toastr.success("Subscriber info update successfully");
+
+    <?php }else if ($msg == 'deleteSuccess'){ ?>
+    toastr.success("Subscriber deleted successfully");
+    <?php }
+    }
+
+    ?>
+
+</script>
 </body>
 
 </html>
