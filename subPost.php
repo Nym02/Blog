@@ -488,13 +488,13 @@
 
 
                             if ($fireSubPost) {
-                                header("Location: subPost.php?do=Manage");
+                                header("Location: subPost.php?do=Manage&msg=addSuccess");
                             } else {
-                                header("Location: subPost.php?do=Add&msg=postAddUnsuccess&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
+                                header("Location: subPost.php?do=Add&msg=addError&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                             }
 
                         } else {
-                            header("Location: subPost.php?do=Add&msg=sizeError&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
+                            header("Location: subPost.php?do=Add&msg=fileError&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                         }
 
                     } else {
@@ -508,9 +508,9 @@
                     $fireSubPost = mysqli_query($db, $subPost);
 
                     if ($fireSubPost) {
-                        header("Location: subPost.php?do=Manage");
+                        header("Location: subPost.php?do=Manage&msg=addSuccess");
                     } else {
-                        header("Location: subPost.php?do=Add&msg=postAddUnsuccess&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
+                        header("Location: subPost.php?do=Add&msg=addError&title=$post_title&category=$post_category&status=$post_status&tag=$post_tag&body=$post_body");
                     }
                 }
 
@@ -562,14 +562,14 @@
                             $updateSubPostQuery = mysqli_query($db, $updateSubPost);
 
                             if ($updateSubPostQuery) {
-                                header("Location: subPost.php?do=Manage");
+                                header("Location: subPost.php?do=Manage&msg=updateSuccess");
                             } else {
                                 header("Location: subPost.php?do=Manage&msg=updateError");
                             }
 
 
                         } else {
-                            header("Location: subPost.php?do=Manage&msg=sizeError");
+                            header("Location: subPost.php?do=Manage&msg=fileError");
                         }
                     } else {
                         header("Location: subPost.php?do=Manage&msg=typeError");
@@ -580,7 +580,7 @@
                     $updateSubPostQuery = mysqli_query($db, $updateSubPost);
 
                     if ($updateSubPostQuery) {
-                        header("Location: subPost.php?do=Manage");
+                        header("Location: subPost.php?do=Manage&msg=updateSuccess");
                     } else {
                         header("Location: subPost.php?do=Manage&msg=updateError");
                     }
@@ -608,7 +608,7 @@
 
 
                 if ($queryDelSql) {
-                    header("Location: subPost.php?do=Manage");
+                    header("Location: subPost.php?do=Manage&msg=deleteSuccess");
                 } else {
                     header("Location: subPost.php?do=Manage&msg=delError");
                 }
@@ -623,3 +623,47 @@
 
 
 <?php include 'inc/footer.php'; ?>
+<script>
+    <?php
+    if(isset($_GET['msg'])){
+    $msg = $_GET['msg'];
+    if($msg == 'fileError'){ ?>
+    toastr.error("File is too large.");
+
+    <?php } else if ($msg == 'typeError'){ ?>
+    toastr.error("Invalid image type. Valid Type: jpg, jpeg, png");
+
+    <?php }else if ($msg == 'addSuccess'){ ?>
+    toastr.success("Post Added Successfully");
+
+    <?php }else if ($msg == 'updateSuccess'){ ?>
+
+    toastr.success("Post Updated Successfully");
+
+    <?php }else if ($msg == 'deleteSuccess'){ ?>
+    toastr.success("Post Deleted Successfully");
+
+    <?php }else if ($msg == 'addError'){ ?>
+    swal({
+        title: "Post Add Error",
+        text: "Please contact admin",
+        icon: "error",
+    });
+    <?php }else if ($msg == 'updateError'){ ?>
+    swal({
+        title: "Post Update Error",
+        text: "Please contact admin",
+        icon: "error",
+    });
+    <?php }else if ($msg == 'delError'){ ?>
+    swal({
+        title: "Post Delete Error",
+        text: "Please contact admin",
+        icon: "error",
+    });
+    <?php }
+    }
+
+    ?>
+
+</script>

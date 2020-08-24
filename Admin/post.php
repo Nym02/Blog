@@ -376,16 +376,16 @@
                             die("Error In Insertion" . mysqli_error($db));
                         }
                     } else {
-                        header("Location: post.php?do=Add&msg=fileSize");
+                        header("Location: post.php?do=Add&msg=fileError&title=$title&description=$description&tags=$tags");
                     }
                 } else {
-                    header("Location: post.php?do=Add&msg=fileType");
+                    header("Location: post.php?do=Add&msg=typeError&title=$title&description=$description&tags=$tags");
                 }
             } else {
                 $postInsertQuery = "INSERT INTO post(title,description, tags,category_id, author_id, status,post_date) VALUES ('$title','$description','$tags','$category','$author','$status', now())";
                 $postInsertSql = mysqli_query($db, $postInsertQuery);
                 if ($postInsertSql) {
-                    header("Location: post.php?do=Manage");
+                    header("Location: post.php?do=Manage&msg=addSuccess");
                 } else {
                     die("Error In Insertion" . mysqli_error($db));
                 }
@@ -584,16 +584,16 @@
 
                         $postUpdatetSql = mysqli_query($db, $updatePostQuery);
                         if ($postUpdatetSql) {
-                            header("Location: post.php?do=Manage");
+                            header("Location: post.php?do=Manage&msg=updateSuccess");
                         } else {
                             die("Error In Insertion" . mysqli_error($db));
                         }
                     } else {
-                        echo 'File is too large';
+                       header("Location: post.php?do=Update&msg=fileError&title=$title&description=$description&tags=$tags");
                     }
                 } else {
+                    header("Location: post.php?do=Update&msg=typeError&title=$title&description=$description&tags=$tags");
 
-                    echo 'File type do not support';
                 }
             } else if (empty($thumb_name)) {
                 $updatePostQuery = "UPDATE post SET title='$title', description='$description', tags='$tags', category_id='$category', author_id='$author', status='$status' where id = '$updatePostID'";
@@ -601,7 +601,7 @@
 
                 $postUpdatetSql = mysqli_query($db, $updatePostQuery);
                 if ($postUpdatetSql) {
-                    header("Location: post.php?do=Manage");
+                    header("Location: post.php?do=Manage&msg=updateSuccess");
                 } else {
                     die("Error In Insertion" . mysqli_error($db));
                 }
@@ -624,7 +624,7 @@
             $delPostSql = mysqli_query($db, $delPost);
 
             if ($delPostSql) {
-                header("Location: post.php?do=Manage");
+                header("Location: post.php?do=Manage&msg=deleteSuccess");
             } else {
                 die("Error While Deleting Post" . mysqli_error($db));
             }
@@ -632,4 +632,28 @@
     }
 
     include 'inc/footer.php'; ?>
+    <script>
+        <?php
+        if(isset($_GET['msg'])){
+        $msg = $_GET['msg'];
+        if($msg == 'fileError'){ ?>
+        toastr.error("File is too large.");
+
+        <?php } else if ($msg == 'typeError'){ ?>
+        toastr.error("Invalid image type. Valid Type: jpg, jpeg, png");
+
+        <?php }else if ($msg == 'addSuccess'){ ?>
+        toastr.success("Post Added Successfully");
+
+        <?php }else if ($msg == 'updateSuccess'){ ?>
+        toastr.success("Post Updated Successfully");
+
+        <?php }else if ($msg == 'deleteSuccess'){ ?>
+        toastr.success("Post Deleted Successfully");
+        <?php }
+        }
+
+        ?>
+
+    </script>
 </div>

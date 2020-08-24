@@ -320,29 +320,7 @@
                                                 </div>
 
 
-                                                <?php
-                                                if (isset($_GET['msg'])) {
-                                                    $msg = $_GET['msg'];
 
-                                                    if ($msg == 'addUnsuccess') { ?>
-                                                        <div class="alert alert-danger">Problem while adding. Please
-                                                            contact <a class="btn btn-primary">admin</a></div>
-
-                                                    <?php } else if ($msg == 'typeError') { ?>
-                                                        <div class="alert alert-danger">Invalid image type. </div>
-                                                    <?php } else if ($msg == 'sizeError') { ?>
-                                                        <div class="alert alert-danger">File is too large.</div>
-                                                    <?php } else if ($msg == 'notMatchPass') { ?>
-                                                        <div class="alert alert-danger">Password do not match.</div>
-                                                    <?php } else if ($msg == 'existEmail') { ?>
-                                                        <div class="alert alert-danger">Email already exists.</div>
-                                                    <?php } else if ($msg == 'existUsername') { ?>
-                                                        <div class="alert alert-danger">Username already exists.</div>
-                                                    <?php }
-                                                }
-
-
-                                                ?>
 
                                             </div>
                                         </div>
@@ -421,10 +399,10 @@
                                     }
 
                                 } else {
-                                    header("Location: subscribers.php?do=Add&msg=sizeError&fullname=$fullname&username=$username&email=$email&phone=$phone");
+                                    header("Location: subscribers.php?do=Add&msg=SubscriberError&fullname=$fullname&username=$username&email=$email&phone=$phone");
                                 }
                             } else {
-                                header("Location: subscribers.php?do=Add&msg=notMatchPass&fullname=$fullname&username=$username&email=$email&phone=$phone");
+                                header("Location: subscribers.php?do=Add&msg=passnotmatch&fullname=$fullname&username=$username&email=$email&phone=$phone");
 
                             }
 
@@ -455,7 +433,7 @@
                                     header("Location: subscribers.php?do=Add&msg=addUnsuccess");
                                 }
                             } else {
-                                header("Location: subscribers.php?do=Add&msg=notMatchPass&fullname=$fullname&username=$username&email=$email&phone=$phone");
+                                header("Location: subscribers.php?do=Add&msg=passnotmatch&fullname=$fullname&username=$username&email=$email&phone=$phone");
                             }
                         } else {
                             header("Location: subscribers.php?do=Add&msg=existEmail&fullname=$fullname&username=$username&email=$email&phone=$phone");
@@ -656,7 +634,7 @@
                                     die("Error" . mysqli_error($db));
                                 }
                             } else {
-                                header("Location: subscribers.php?do=Edit&msg=sizeError");
+                                header("Location: subscribers.php?do=Edit&msg=fileError");
 
                             }
                         } else {
@@ -665,7 +643,7 @@
 
 
                     } else {
-                        header("Location: subscribers.php?do=Edit&msg=passError");
+                        header("Location: subscribers.php?do=Edit&msg=passnotmatch");
                     }
                 } else if (!empty($password) && empty($image_name)) {
                     if ($password == $rePassword) {
@@ -683,7 +661,7 @@
 
 
                     } else {
-                        header("Location: subscribers.php?do=Edit&msg=passError");
+                        header("Location: subscribers.php?do=Edit&msg=passnotmatch");
                     }
 
                 } else if (empty($password) && !empty($image_name)) {
@@ -713,7 +691,7 @@
                                 die("Error" . mysqli_error($db));
                             }
                         } else {
-                            header("Location: subscribers.php?do=Edit&msg=sizeError");
+                            header("Location: subscribers.php?do=Edit&msg=fileError");
 
                         }
                     } else {
@@ -775,3 +753,37 @@
 
 
 <?php include 'inc/footer.php'; ?>
+<script>
+    <?php
+    if(isset($_GET['msg'])){
+    $msg = $_GET['msg'];
+    if($msg == 'fileError'){ ?>
+    toastr.error("File is too large.");
+
+    <?php } else if ($msg == 'typeError'){ ?>
+    toastr.error("Invalid image type. Valid Type: jpg, jpeg, png");
+
+    <?php } else if ($msg == 'existUsername'){ ?>
+    toastr.error("Username already exist.");
+
+    <?php } else if ($msg == 'existEmail'){ ?>
+    toastr.error("Email already exist.");
+
+    <?php } else if ($msg == 'passnotmatch'){ ?>
+    toastr.error("Password do not match.");
+
+    <?php }else if ($msg == 'addSuccess'){ ?>
+    toastr.success("Subscriber added successfully.");
+
+    <?php }else if ($msg == 'updateSuccess'){ ?>
+    toastr.success("Subscriber info update successfully");
+
+    <?php }else if ($msg == 'deleteSuccess'){ ?>
+    toastr.success("Subscriber deleted successfully");
+    <?php }
+    }
+
+    ?>
+
+</script>
+

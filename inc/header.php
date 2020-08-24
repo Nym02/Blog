@@ -47,7 +47,7 @@ ob_start();
 
     <!-- Theme Main Style CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
+    <link rel="stylesheet" type="text/css" href="assets/css/toastr.min.css">
     <!-- Responsive CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>

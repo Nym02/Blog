@@ -187,7 +187,7 @@
                 $categorySql = mysqli_query($db, $categoryQuery);
 
                 if ($categorySql) {
-                    header("Location: category.php?do=Manage");
+                    header("Location: category.php?do=Manage&msg=categoryAddSuccess");
                 } else {
                     die("Connection Error" . mysqli_error($db));
                 }
@@ -259,7 +259,7 @@
                 $updateSql = mysqli_query($db, $updateQuery);
 
                 if ($updateSql) {
-                    header("Location: category.php?do=Manage");
+                    header("Location: category.php?do=Manage&msg=categoryUpdateSuccess");
                 } else {
                     die("Connection Error" . mysqli_error($db));
                 }
@@ -272,7 +272,7 @@
                 $delSql = mysqli_query($db, $delQuery);
 
                 if ($delSql) {
-                    header("Location: category.php?do=Manage");
+                    header("Location: category.php?do=Manage&msg=categoryDeleteSuccess");
                 } else {
                     die("DConnection Error" . mysqli_error($db));
                 }
@@ -284,6 +284,26 @@
 
 
         <?php include("inc/footer.php"); ?>
+        <script>
+            <?php
+            if(isset($_GET['msg'])){
+            $msg = $_GET['msg'];
+            if($msg == 'categoryAddSuccess'){ ?>
+            toastr.success("Category Added Successfully");
+
+            <?php } else if ($msg == 'categoryUpdateSuccess'){ ?>
+            toastr.success("Category Updated Successfully");
+
+            <?php } else if ($msg == 'categoryDeleteSuccess'){ ?>
+            toastr.success("Category Deleted Successfully");
+
+
+            <?php }
+            }
+
+            ?>
+
+        </script>
 </body>
 
 </html>

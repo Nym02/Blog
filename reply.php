@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fireSql = mysqli_query($db, $sql);
 
     if ($fireSql) {
-        header("Location: single.php?post=$postID&reply=$replyID");
+        header("Location: single.php?post=$postID&reply=$replyID&msg=replySuccess");
     } else {
-        header("Location: single.php?post=$postID&msg=replyFailed");
+        header("Location: single.php?post=$postID&msg=replyUnsuccess");
     }
 }
 

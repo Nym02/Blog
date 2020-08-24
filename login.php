@@ -30,6 +30,8 @@ ob_start();
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css">
     <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/toastr.min.css">
+    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="assets/css/util.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
     <!--===============================================================================================-->
@@ -65,30 +67,17 @@ ob_start();
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn" name="login" type="submit">
+                        <button class="login100-form-btn" name="login" type="submit" id="login">
                             Login
                         </button>
 
                     </div>
                 </div>
+
+
                 <?php
-
-                if (isset($_GET['msg'])) {
-                    $msg = $_GET['msg'];
-
-                    if ($msg == 'emptyUsername') {
-                        echo '<div class="alert alert-danger mt-4 text-center"> Your username is empty. </div>';
-                    } else if ($msg == 'emptyPassword') {
-                        echo '<div class="alert alert-danger mt-4 text-center"> Your password is empty. </div>';
-                    } else if ($msg == 'usernamePassEmpty') {
-                        echo '<div class="alert alert-danger mt-4 text-center"> Your username & password is empty. </div>';
-                    } else if ($msg == 'inactiveUser') {
-                        echo '<div class="alert alert-danger mt-4 text-center"> You are an inactive user. Please contact <a href="" class="btn btn-info mt-3">admin</a>. </div>';
-                    } else if ($msg == 'usernamePassDoNotMatch') {
-                        echo '<div class="alert alert-danger mt-4 text-center"> Your username & password do not match. </div>';
-                    }
-                }
                 if (isset($_POST['login'])) {
+
                     $username = mysqli_real_escape_string($db, $_POST['username']);
                     $password = mysqli_real_escape_string($db, $_POST['password']);
 
@@ -112,18 +101,29 @@ ob_start();
                     }
 
                     if (empty($username) && !empty($password)) {
-                        header("Location: login.php?msg=emptyUsername");
-                    } else if (!empty($username) && empty($password)) {
+
+                        header("Location: login.php?msg=emptyUsername"); ?>
+
+                    <?php } else if (!empty($username) && empty($password)) {
                         header("Location: login.php?msg=emptyPassword");
                     } else if (empty($username) && empty($password)) {
                         header("Location: login.php?msg=usernamePassEmpty");
                     } else if ($username == $_SESSION['sub_username'] && $loginHashedPassword == $_SESSION['sub_password'] && $_SESSION['sub_status'] == 1) {
-                        if (isset($_GET['post'])) {
-                            $postID = $_GET['post'];
-                            header("Location: single.php?post=$postID");
-                        } else {
+
+                            if (isset($_GET['post'])) {
+                            $postID = $_GET['post']; ?>
+
+                            <?php  header("Location: single.php?post=$postID&msg=loginSuccess");
+                            } else {
+                            ?>
+
+                            <?php
                             header("Location: index.php?msg=loginSuccess");
-                        }
+                            }
+
+
+
+
                     } else if ($username == $_SESSION['sub_username'] && $loginHashedPassword == $_SESSION['sub_password'] && $_SESSION['sub_status'] == 0) {
                         header("Location: login.php?msg=inactiveUser");
                     } else if ($username == $_SESSION['sub_username'] && $loginHashedPassword != $_SESSION['sub_password']) {
@@ -138,6 +138,7 @@ ob_start();
 							Or Sign Up Using
 						</span>
                 </div>
+
 
                 <div class="flex-c-m">
                     <a href="#" class="login100-social-item bg1">
@@ -162,7 +163,7 @@ ob_start();
                         $postid = $_GET['post'];
                         ?>
 
-                        <a href="register.php?post=<?php echo $postid;?>" class="txt2">
+                        <a href="register.php?post=<?php echo $postid; ?>" class="txt2">
                             Sign Up
                         </a>
                     <?php } else { ?>
@@ -176,6 +177,7 @@ ob_start();
 
                 </div>
             </form>
+
         </div>
     </div>
 </div>
@@ -185,6 +187,7 @@ ob_start();
 
 <!--===============================================================================================-->
 <script src="assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>-->
 <!--===============================================================================================-->
 <script src="assets/vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
@@ -198,7 +201,33 @@ ob_start();
 <!--===============================================================================================-->
 <script src="assets/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="assets/js/toastr.min.js"></script>
 <script src="assets/js/main.js"></script>
+<script>
+    <?php
+    if(isset($_GET['msg'])){
+    $msg = $_GET['msg'];
+    if($msg == 'emptyUsername'){  ?>
+    toastr.error("Your Username is empty.");
+    <?php     } else if ($msg == 'emptyPassword') { ?>
+    toastr.error("Your Password is empty.");
+    <?php  } else if ($msg == 'usernamePassEmpty') { ?>
+    toastr.error("Your Username & Password is empty.");
+    <?php  } else if ($msg == 'inactiveUser') { ?>
+    toastr.error("Your are an in-active member. Please contact ADMIN");
+    <?php   } else if ($msg == 'usernamePassDoNotMatch') { ?>
+    toastr.error("Username & Password do not match");
+    <?php    }
+
+    }
+
+    ?>
+
+
+
+
+</script>
 <?php ob_end_flush(); ?>
 </body>
 </html>

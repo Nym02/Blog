@@ -166,7 +166,8 @@
 <script src="assets/js/waypoints.min.js"></script>
 <script src="assets/js/jquery.counterup.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="assets/js/toastr.min.js"></script>
 <!-- BlueChip Extarnal Script -->
 <script type="text/javascript" src="assets/js/main.js"></script>
 

@@ -156,7 +156,7 @@ include "inc/header.php";
                                 $query = mysqli_query($db, $sql);
 
                                 if ($query) {
-                                    header("Location: single.php?post=" . $postID);
+                                    header("Location: single.php?post=$postID&msg=commentAdded");
                                 } else {
                                     die("Error while posting comment" . mysqli_error($db));
                                 }
@@ -359,3 +359,23 @@ include "inc/header.php";
 
 
 <?php include "inc/footer.php"; ?>
+
+<script>
+    <?php
+    if(isset($_GET['msg'])){
+    $msg = $_GET['msg'];
+    if($msg == 'loginSuccess'){ ?>
+    toastr.success("Login Successful");
+    <?php } else if($msg == 'commentAdded'){ ?>
+    toastr.success("Comment Added Successfully.");
+   <?php }else if($msg == 'replySuccess'){ ?>
+    toastr.success("Reply Added Successfully.");
+   <?php }else if($msg == 'replyUnsuccess'){ ?>
+    toastr.error("Reply was not added.");
+   <?php }
+    }
+
+
+    ?>
+
+</script>

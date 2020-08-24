@@ -31,6 +31,8 @@ if(empty($_SESSION['email']) || empty($_SESSION['password'])){
     <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
+<!--    alert plugin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Daterange picker -->
@@ -41,9 +43,11 @@ if(empty($_SESSION['email']) || empty($_SESSION['password'])){
     <!-- datatable CSS style sheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-
+    <link rel="stylesheet" type="text/css" href="assets/css/toastr.min.css">
     <!-- custom css  -->
     <link rel="stylesheet" href="dist/css/custom.css">
+
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

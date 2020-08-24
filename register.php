@@ -98,30 +98,47 @@ ob_start();
                 $password = mysqli_real_escape_string($db, $_POST['password']);
                 $rePassword = mysqli_real_escape_string($db, $_POST['rePassword']);
 
+                //checking username
+
+                $checkUsername = "SELECT * FROM subscriber WHERE sub_username = '$username'";
+                $fireCheckUsername = mysqli_query($db, $checkUsername);
+                $totalUsername = mysqli_num_rows($fireCheckUsername);
+
                 if ($password == $rePassword) {
                     $hashedPass = sha1($password);
 
-                    $registerSubscriber = "INSERT INTO subscriber(sub_name	,sub_username, sub_email, sub_password,sub_status,sub_date) VALUES ('$fullname', '$username', '$email', '$hashedPass', 1, now())";
-                    $registerSubscriberQuery = mysqli_query($db, $registerSubscriber);
+                    if($totalUsername == 0){
+                        $registerSubscriber = "INSERT INTO subscriber(sub_name	,sub_username, sub_email, sub_password,sub_status,sub_date) VALUES ('$fullname', '$username', '$email', '$hashedPass', 1, now())";
+                        $registerSubscriberQuery = mysqli_query($db, $registerSubscriber);
 
-                    if ($registerSubscriberQuery) {
-                        if (isset($_GET['post'])) {
-                            $postid = $_GET['post'];
+                        if ($registerSubscriberQuery) {
+                            if (isset($_GET['post'])) {
+                                $postid = $_GET['post'];
 
-                            header("Location: login.php?msg=registrationSuccess&post=$postid");
+                                header("Location: login.php?msg=registrationSuccess&post=$postid");
+                            } else {
+                                header("Location: login.php?msg=registrationSuccess");
+                            }
+
+
+
                         } else {
-                            header("Location: login.php?msg=registrationSuccess");
-                         }
+                            if (isset($_GET['post'])) {
+                                $postid = $_GET['post'];
+                                header("Location: register.php?msg=registrationNotSuccess&post=$postid");
 
+                            } else {
+                                header("Location: register.php?msg=registrationNotSuccess");
+                            }
 
-
+                        }
                     } else {
                         if (isset($_GET['post'])) {
                             $postid = $_GET['post'];
-                            header("Location: register.php?msg=registrationNotSuccess&post=$postid");
+                            header("Location: register.php?msg=existUsername&post=$postid");
 
                         } else {
-                            header("Location: register.php?msg=registrationNotSuccess");
+                            header("Location: register.php?msg=existUsername");
                         }
 
                     }
@@ -163,6 +180,7 @@ ob_start();
 <!--===============================================================================================-->
 <script src="assets/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
+<script src="assets/js/toastr.min.js"></script>
 <script src="assets/js/main.js"></script>
 <?php ob_end_flush(); ?>
 </body>
