@@ -480,7 +480,7 @@ include "access.php";
                         if ($post_thumb_size < 500000) {
 
                             $thumbnail = uniqid('PostThumbnail') . "_" . $post_thumb_name;
-                            move_uploaded_file($post_thumb_tmp, 'Admin/image/sub/subPost/' . $thumbnail);
+                            move_uploaded_file($post_thumb_tmp, 'Admin/image/post/' . $thumbnail);
 
 
                             //insert post data in post table
@@ -549,8 +549,8 @@ include "access.php";
                     if (in_array($actualImgExtension, $allowedImgExtension)) {
                         if ($thumbPost_size < 50000) {
 
-                            $actualPhoto = uniqid("BloggerPostThumbnail" . "_" . $thumbPost_name);
-                            move_uploaded_file($thumbPost_type, "Admin/image/post/" . $actualPhoto);
+                            $actualPhoto = uniqid("UpdateBloggerPostThumbnail") . "_" . $thumbPost_name;
+                            move_uploaded_file($thumbPost_tmpName, "Admin/image/post/" . $actualPhoto);
 
 
                             $delSubPostImg = "SELECT * FROM post WHERE id = '$updateSubPostID'";
